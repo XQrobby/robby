@@ -50,6 +50,22 @@ class VipUser(models.Model):
         (ATTEMPER,'调度'),
         (VENDITION,'销售')
     )
+    '''
+    TECH_GRADE_CHOICE= {
+        'TC':{
+
+        },
+        'FN':{
+
+        },
+        'AT':{
+
+        },
+        'VD':{
+
+        }
+    }
+    '''
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     jobNumber = models.CharField(verbose_name='工号',max_length=10,default='NaN')
     address = models.CharField(verbose_name='地址',max_length=50,default='NaN')
