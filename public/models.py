@@ -29,7 +29,7 @@ class User(models.Model):
 #普通用户属性
 class Client(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
-    userID = models.CharField(verbose_name='用户编码',max_lenght=10,default='NaN')
+    userID = models.CharField(verbose_name='用户编码',max_length=10,default='NaN')
     section = models.CharField(verbose_name='单位',max_length=20,default='NaN')
     clas = models.CharField(verbose_name='院系/部门',max_length=20,default='NaN')
 
@@ -38,8 +38,29 @@ class Address(models.Model):
     Client = models.OneToOneField(Client,on_delete=models.CASCADE)
     address = models.CharField(verbose_name='地址',max_length=50,default='NaN')
 
-#vipUser属性
-class VipUser(models.Model):
+#vipUserType中level属性
+class Level(models.Model):
+    TECH_GRADE_CHOICES = (
+        ('TC_PT','技术实习'),
+        ('TC_PM','技术初级'),
+        ('TC_TM','技术中级'),
+        ('TC_AD','技术高级'),
+        ('FN_PT','财务实习'),
+        ('FN_DF','财务正式'),
+        ('AT_PT','调度实习'),
+        ('AT_DF','调度正式'),
+        ('VD_PT','销售实习'),
+        ('VD_DF','销售正式')
+    )
+    level = models.CharField(
+        verbose_name='技术等级',
+        max_length=5,
+        choices=TECH_GRADE_CHOICES
+    )
+    rate = models.FloatField(verbose_name='提成率')
+
+#vip用户类型
+class VipUserType(models.Model):
     TECHNICAL = 'TC'
     FINANCE = 'FN'
     ATTEMPER = 'AT'
@@ -50,37 +71,33 @@ class VipUser(models.Model):
         (ATTEMPER,'调度'),
         (VENDITION,'销售')
     )
-    '''
-    TECH_GRADE_CHOICE= {
-        'TC':{
-
-        },
-        'FN':{
-
-        },
-        'AT':{
-
-        },
-        'VD':{
-
-        }
-    }
-    '''
+    typ = models.CharField(verbose_name='用户类别',choices=VIPUSER_TYPE_CHOICES,max_length=2)
+    level = models.ForeignKey(Level,verbose_name='技术等级',on_delete=models.DO_NOTHING)
+    
+#vipUser属性
+class VipUser(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     jobNumber = models.CharField(verbose_name='工号',max_length=10,default='NaN')
     address = models.CharField(verbose_name='地址',max_length=50,default='NaN')
 #用户类别系统 重点！！！
+    vipUserType = models.OneToOneField(VipUserType,on_delete=models.DO_NOTHING)
+    '''
     vipUserType = models.CharField(
         verbose_name='员工类别',
         max_length=2,
         choices=VIPUSER_TYPE_CHOICES,
         default=TECHNICAL
     )
-    technicalGrade = models.CharField(verbose_name='技术等级',max_length=2)
+#用户等级 未完成
+    technicalGrade = models.CharField(
+        verbose_name='技术等级',
+        max_length=2,
+        choices=TECH_GRADE_CHOICE[self.vipUserType])
+    '''
     hiredate = models.DateTimeField(verbose_name='入职时间')
     hire = models.BooleanField(verbose_name='就职状态',default=True)
     dimissionTime = models.DateTimeField(verbose_name='离职时间')
-    
+
 #scholarUser用户属性
 class scholarUser(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
@@ -88,6 +105,7 @@ class scholarUser(models.Model):
     clas = models.CharField(verbose_name='院系/部门',max_length=20,default='NaN')
 
 #订单属性
+'''
 class Order(models.Model):
     orderID = models.CharField(verbose_name='报修单号',max_length=11,default='NaN')
     client = models.ForeignKey(
@@ -110,4 +128,5 @@ class Order(models.Model):
     serviceLog = models.TextField(verbose_name='服务日志')
 
 class scholarOrder(models.Model):
-    orderType = models.BooleanField(verbose_name='审核员审核')
+    orderType = models.BooleanField(verbose_name='审核员审核',default=False)
+'''
