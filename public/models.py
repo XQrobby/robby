@@ -85,7 +85,7 @@ class VipUser(models.Model):
     jobNumber = models.CharField(verbose_name='工号',max_length=10,default='NaN')
     address = models.CharField(verbose_name='地址',max_length=50,default='NaN')
 #用户类别系统 重点！！！
-    uesrType = models.ForeignKey(Level,on_delete=models.DO_NOTHING)
+    userType = models.ForeignKey(Level,on_delete=models.DO_NOTHING)
     '''
     vipUserType = models.CharField(
         verbose_name='员工类别',
