@@ -80,7 +80,7 @@ class VipUser(models.Model):
     jobNumber = models.CharField(verbose_name='工号',max_length=10,default='NaN')
     address = models.CharField(verbose_name='地址',max_length=50,default='NaN')
 #用户类别系统 重点！！！
-    vipUserType = models.OneToOneField(VipUserType,on_delete=models.DO_NOTHING)
+    level = models.ForeignKey(Level,on_delete=models.DO_NOTHING)
     '''
     vipUserType = models.CharField(
         verbose_name='员工类别',
@@ -94,27 +94,51 @@ class VipUser(models.Model):
         max_length=2,
         choices=TECH_GRADE_CHOICE[self.vipUserType])
     '''
-    hiredate = models.DateTimeField(verbose_name='入职时间')
+    hiredate = models.DateTimeField(verbose_name='入职时间',default=now)
     hire = models.BooleanField(verbose_name='就职状态',default=True)
-    dimissionTime = models.DateTimeField(verbose_name='离职时间')
+    dimissionTime = models.DateTimeField(verbose_name='离职时间',blank=True)
+
+#clas对象
+class Clas(models.Model):
+    section = models.ForeignKey(verbose_name='单位')
+    clas = models.CharField(verbose_name='院系/部门')
+
+#section对象
+class Section(models.Model):
+    section = models.CharField(verbose_name='单位名称',max_length=20)
 
 #scholarUser用户属性
-class scholarUser(models.Model):
+class ScholarUser(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
-    section = models.CharField(verbose_name='单位',max_length=20,default='NaN')
-    clas = models.CharField(verbose_name='院系/部门',max_length=20,default='NaN')
+    clas = models.ForeignKey(Clas,verbose_name='单位/院系/部门')
 
 #服务类型
 class ServiceType(models.Model):
-    typ = models.CharField(verbose_name='服务类型',max_length=5)
+    typ = models.CharField(verbose_name='服务类型',max_length=10)
 
 #订单属性
 class Order(models.Model):
     COMMON = 'CO'
     SCHOLAR = 'SC'
+    '''
     ORDER_TYPE_CHOICES = (
         (COMMON,'普通'),
         (SCHOLAR,'校方')
+    )
+    '''
+    ORDER_LEVEL_CHOICES = (
+        ('5','五星'),
+        ('4','四星'),
+        ('3','三星'),
+        ('2','二星'),
+        ('1','一星')
+    )
+    #订单状态/服务状态 未完成
+    ORDER_STATUS_CHOICES = (
+        ('','')
+    )
+    SERVICE_STATUS_CHOICES = (
+        ('','')
     )
     orderID = models.CharField(verbose_name='报修单号',max_length=11,default='NaN')
     client = models.ForeignKey(
@@ -123,22 +147,25 @@ class Order(models.Model):
         on_delete=models.DO_NOTHING,
         related_name='client'
     )
+    '''
     orderType = models.CharField(
         verbose_name='订单类型',
         max_length=10,
         choices=ORDER_TYPE_CHOICES
     )
-    serviceType = models.ForeignKey(ServiceType,verbose_name='服务类型')
-    address = models.CharField(verbose_name='报修地址',max_length=20)
+    '''
+    serviceType = models.ForeignKey(ServiceType,verbose_name='服务类型',on_delete=models.DO_NOTHING)
+    address = models.ForeignObject(Address,verbose_name='报修地址')
     model = models.CharField(verbose_name='机器型号',max_length=20)
     faultDescription = models.TextField(verbose_name='故障描述')
-    #定义选项 未完成
-    evaluation = models.CharField(verbose_name='订单评价',max_length=2)
-    level = models.CharField(verbose_name='星级',max_length=2)
-    orderStatus = models.CharField(verbose_name='订单状态',max_length=2)
+    #定义选项
+    evaluation = models.CharField(verbose_name='订单评价',max_length=200)
+    level = models.CharField(verbose_name='星级',max_length=2,choices=ORDER_LEVEL_CHOICES)
+    orderStatus = models.CharField(verbose_name='订单状态',max_length=2,choices=ORDER_STATUS_CHOICES)
     orderLog = models.TextField(verbose_name='订单日志')
-    serviceStatus = models.CharField(verbose_name='服务状态',max_length=2)
+    serviceStatus = models.CharField(verbose_name='服务状态',max_length=2,choices=SERVICE_STATUS_CHOICES)
     serviceLog = models.TextField(verbose_name='服务日志')
 
 class scholarOrder(models.Model):
+    clas = models.ForeignKey(Clas,on_delete=models.DO_NOTHING)
     orderType = models.BooleanField(verbose_name='审核员审核',default=False)
