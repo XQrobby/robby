@@ -104,9 +104,18 @@ class scholarUser(models.Model):
     section = models.CharField(verbose_name='单位',max_length=20,default='NaN')
     clas = models.CharField(verbose_name='院系/部门',max_length=20,default='NaN')
 
+#服务类型
+class ServiceType(models.Model):
+    typ = models.CharField(verbose_name='服务类型',max_length=5)
+
 #订单属性
-'''
 class Order(models.Model):
+    COMMON = 'CO'
+    SCHOLAR = 'SC'
+    ORDER_TYPE_CHOICES = (
+        (COMMON,'普通'),
+        (SCHOLAR,'校方')
+    )
     orderID = models.CharField(verbose_name='报修单号',max_length=11,default='NaN')
     client = models.ForeignKey(
         User,
@@ -114,8 +123,12 @@ class Order(models.Model):
         on_delete=models.DO_NOTHING,
         related_name='client'
     )
-    orderType = models.CharField(verbose_name='订单类型',max_length=10)
-    serviceType = models.CharField(verbose_name='服务类型',max_length=10)
+    orderType = models.CharField(
+        verbose_name='订单类型',
+        max_length=10,
+        choices=ORDER_TYPE_CHOICES
+    )
+    serviceType = models.ForeignKey(ServiceType,verbose_name='服务类型')
     address = models.CharField(verbose_name='报修地址',max_length=20)
     model = models.CharField(verbose_name='机器型号',max_length=20)
     faultDescription = models.TextField(verbose_name='故障描述')
@@ -129,4 +142,3 @@ class Order(models.Model):
 
 class scholarOrder(models.Model):
     orderType = models.BooleanField(verbose_name='审核员审核',default=False)
-'''
