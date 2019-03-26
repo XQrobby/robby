@@ -27,7 +27,8 @@ class User(models.Model):
     loginCode = models.CharField(verbose_name='微信登录凭证',max_length=50,default='NaN')
 
     def __str__(self):
-        return ' '.join(self.id,self.userType,self.name)
+        return "-".join((str(self.id),self.name))
+
 
 #普通用户属性
 class Client(models.Model):
