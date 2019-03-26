@@ -100,7 +100,7 @@ class VipUser(models.Model):
 
 #clas对象
 class Clas(models.Model):
-    section = models.ForeignKey(verbose_name='单位')
+    section = models.ForeignKey(verbose_name='单位',on_delete=models.DO_NOTHING)
     clas = models.CharField(verbose_name='院系/部门')
 
 #section对象
