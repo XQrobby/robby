@@ -28,7 +28,7 @@ class User(models.Model):
 
 #普通用户属性
 class Client(models.Model):
-    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    user = models.OneToOneField(User,on_delete=models.CASCADE,related_name='cUser')
     userID = models.CharField(verbose_name='用户编码',max_length=10,default='NaN')
     section = models.CharField(verbose_name='单位',max_length=20,default='NaN')
     clas = models.CharField(verbose_name='院系/部门',max_length=20,default='NaN')
@@ -37,6 +37,25 @@ class Client(models.Model):
 class Address(models.Model):
     Client = models.OneToOneField(Client,on_delete=models.CASCADE)
     address = models.CharField(verbose_name='地址',max_length=50,default='NaN')
+
+#维修方对象
+class Agent(models.Model):
+    call = models.CharField(verbose_name='服务商',max_length=10,default='NaN')
+
+#vip用户类型
+class VipUserType(models.Model):
+    TECHNICAL = 'TC'
+    FINANCE = 'FN'
+    ATTEMPER = 'AT'
+    VENDITION = 'VD'
+    VIPUSER_TYPE_CHOICES = (
+        (TECHNICAL,'技术'),
+        (FINANCE,'财务'),
+        (ATTEMPER,'调度'),
+        (VENDITION,'销售')
+    )
+    agent = models.ForeignKey(Agent,verbose_name='服务商',on_delete=models.CASCADE)
+    typ = models.CharField(verbose_name='用户类别',choices=VIPUSER_TYPE_CHOICES,max_length=2)
 
 #vipUserType中level属性
 class Level(models.Model):
@@ -52,6 +71,7 @@ class Level(models.Model):
         ('VD_PT','销售实习'),
         ('VD_DF','销售正式')
     )
+    vipUserType = models.ForeignKey(VipUserType,verbose_name='用户类型',on_delete=models.CASCADE)
     level = models.CharField(
         verbose_name='技术等级',
         max_length=5,
@@ -59,28 +79,13 @@ class Level(models.Model):
     )
     rate = models.FloatField(verbose_name='提成率')
 
-#vip用户类型
-class VipUserType(models.Model):
-    TECHNICAL = 'TC'
-    FINANCE = 'FN'
-    ATTEMPER = 'AT'
-    VENDITION = 'VD'
-    VIPUSER_TYPE_CHOICES = (
-        (TECHNICAL,'技术'),
-        (FINANCE,'财务'),
-        (ATTEMPER,'调度'),
-        (VENDITION,'销售')
-    )
-    typ = models.CharField(verbose_name='用户类别',choices=VIPUSER_TYPE_CHOICES,max_length=2)
-    level = models.ForeignKey(Level,verbose_name='技术等级',on_delete=models.DO_NOTHING)
-    
 #vipUser属性
 class VipUser(models.Model):
-    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    user = models.OneToOneField(User,on_delete=models.CASCADE,related_name='vUser')
     jobNumber = models.CharField(verbose_name='工号',max_length=10,default='NaN')
     address = models.CharField(verbose_name='地址',max_length=50,default='NaN')
 #用户类别系统 重点！！！
-    level = models.ForeignKey(Level,on_delete=models.DO_NOTHING)
+    uesrType = models.ForeignKey(Level,on_delete=models.DO_NOTHING)
     '''
     vipUserType = models.CharField(
         verbose_name='员工类别',
@@ -98,19 +103,19 @@ class VipUser(models.Model):
     hire = models.BooleanField(verbose_name='就职状态',default=True)
     dimissionTime = models.DateTimeField(verbose_name='离职时间',blank=True)
 
-#clas对象
-class Clas(models.Model):
-    section = models.ForeignKey(verbose_name='单位',on_delete=models.DO_NOTHING)
-    clas = models.CharField(verbose_name='院系/部门')
-
 #section对象
 class Section(models.Model):
     section = models.CharField(verbose_name='单位名称',max_length=20)
 
+#clas对象
+class Clas(models.Model):
+    section = models.ForeignKey(Section,verbose_name='单位',on_delete=models.DO_NOTHING)
+    clas = models.CharField(verbose_name='院系/部门',max_length=10)
+
 #scholarUser用户属性
 class ScholarUser(models.Model):
-    user = models.OneToOneField(User,on_delete=models.CASCADE)
-    clas = models.ForeignKey(Clas,verbose_name='单位/院系/部门')
+    user = models.OneToOneField(User,on_delete=models.CASCADE,related_name='sUser')
+    clas = models.ForeignKey(Clas,verbose_name='单位/院系/部门',on_delete=models.DO_NOTHING)
 
 #服务类型
 class ServiceType(models.Model):
@@ -135,10 +140,16 @@ class Order(models.Model):
     )
     #订单状态/服务状态 未完成
     ORDER_STATUS_CHOICES = (
-        ('','')
+        ('0','审核中'),
+        ('1','等待维修'),
+        ('2','已完修'),
+        ('3','已验收'),
     )
     SERVICE_STATUS_CHOICES = (
-        ('','')
+        ('0','下派中'),
+        ('1','待维修'),
+        ('2','维修中'),
+        ('3','维修完成')
     )
     orderID = models.CharField(verbose_name='报修单号',max_length=11,default='NaN')
     client = models.ForeignKey(
@@ -146,6 +157,13 @@ class Order(models.Model):
         verbose_name='客户',
         on_delete=models.DO_NOTHING,
         related_name='client'
+    )
+    technician = models.ForeignKey(
+        User,
+        verbose_name='维修员',
+        on_delete=models.DO_NOTHING,
+        related_name='technician',
+        blank=True
     )
     '''
     orderType = models.CharField(
@@ -155,7 +173,7 @@ class Order(models.Model):
     )
     '''
     serviceType = models.ForeignKey(ServiceType,verbose_name='服务类型',on_delete=models.DO_NOTHING)
-    address = models.ForeignObject(Address,verbose_name='报修地址')
+    address = models.ForeignKey(Address,verbose_name='报修地址',on_delete=models.DO_NOTHING)
     model = models.CharField(verbose_name='机器型号',max_length=20)
     faultDescription = models.TextField(verbose_name='故障描述')
     #定义选项
@@ -167,5 +185,5 @@ class Order(models.Model):
     serviceLog = models.TextField(verbose_name='服务日志')
 
 class scholarOrder(models.Model):
-    clas = models.ForeignKey(Clas,on_delete=models.DO_NOTHING)
-    orderType = models.BooleanField(verbose_name='审核员审核',default=False)
+    clas = models.ForeignKey(Clas,verbose_name='单位/院系/部门',on_delete=models.DO_NOTHING)
+    audit = models.BooleanField(verbose_name='审核员审核',default=False)
