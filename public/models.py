@@ -27,7 +27,7 @@ class User(models.Model):
     loginCode = models.CharField(verbose_name='微信登录凭证',max_length=50,default='NaN')
 
     def __str__(self):
-        return "-".join((str(self.id),self.name))
+        return "-".join((str(self.id),self.name,self.userType))
 
 
 #普通用户属性
@@ -63,12 +63,14 @@ class VipUserType(models.Model):
     )
     agent = models.ForeignKey(Agent,verbose_name='服务商',on_delete=models.CASCADE)
     typ = models.CharField(verbose_name='用户类别',choices=VIPUSER_TYPE_CHOICES,max_length=2)
-    
+
     def __str__(self):
-        return " ".join(self.agent,self.typ)
+        return "-".join((self.agent.call,self.typ))
+
 
 #vipUserType中level属性
 class Level(models.Model):
+    '''
     TECH_GRADE_CHOICES = (
         ('TC_PT','技术实习'),
         ('TC_PM','技术初级'),
@@ -81,16 +83,16 @@ class Level(models.Model):
         ('VD_PT','销售实习'),
         ('VD_DF','销售正式')
     )
+    '''
     vipUserType = models.ForeignKey(VipUserType,verbose_name='用户类型',on_delete=models.CASCADE)
     level = models.CharField(
         verbose_name='技术等级',
-        max_length=5,
-        choices=TECH_GRADE_CHOICES
+        max_length=5
     )
     rate = models.FloatField(verbose_name='提成率')
 
     def __str__(self):
-        return " ".join(self.vipUserType.agent,self.vipUserType,self.level)
+        return "-".join((self.vipUserType.agent.call,self.vipUserType.typ,self.level))
 
 #vipUser属性
 class VipUser(models.Model):
@@ -117,7 +119,7 @@ class VipUser(models.Model):
     dimissionTime = models.DateTimeField(verbose_name='离职时间',blank=True)
 
     def __str__(self):
-        return " ".join(self.jobNumber,self.user.name)
+        return "-".join(self.jobNumber,self.user.name)
 
 #section对象
 class Section(models.Model):
@@ -132,7 +134,7 @@ class Clas(models.Model):
     clas = models.CharField(verbose_name='院系/部门',max_length=10)
 
     def __str__(self):
-        return " ".join(self.section,self.clas)
+        return "-".join((self.section.section,self.clas))
 
 #scholarUser用户属性
 class ScholarUser(models.Model):
@@ -140,7 +142,7 @@ class ScholarUser(models.Model):
     clas = models.ForeignKey(Clas,verbose_name='单位/院系/部门',on_delete=models.DO_NOTHING)
 
     def __str__(self):
-        return " ".join(self.user,self.clas)
+        return " ".join((self.user.id,self.user.name,self.clas))
 #服务类型
 class ServiceType(models.Model):
     typ = models.CharField(verbose_name='服务类型',max_length=10)
@@ -212,11 +214,11 @@ class Order(models.Model):
     serviceLog = models.TextField(verbose_name='服务日志')
 
     def __str__(self):
-        return " ".join(self.id,self.serviceType,self.client)
+        return " ".join((self.orderID,self.serviceType,self.client.name))
 
 class scholarOrder(models.Model):
     clas = models.ForeignKey(Clas,verbose_name='单位/院系/部门',on_delete=models.DO_NOTHING)
     audit = models.BooleanField(verbose_name='审核员审核',default=False)
 
     def __str__(self):
-        return " ".join(self.id,self.serviceType,self.client)
+        return " ".join((self.id,self.serviceType,self.client.name))
