@@ -1,10 +1,6 @@
 from django.db import models
 
 # Create your models here.
-from django.db import models
-from django.utils.timezone import now
-
-# Create your models here.
 class User(models.Model):
     registerTime = models.DateTimeField(verbose_name='注册时间',auto_now_add=True)
     name = models.CharField(verbose_name='姓名',max_length=10,default='NaN')
@@ -25,7 +21,7 @@ class Client(User):
     section = models.CharField(verbose_name='单位',max_length=20,default='NaN')
     clas = models.CharField(verbose_name='院系/部门',max_length=20,default='NaN')
 
-
+'''
 #vip用户信息
 class VipUserInfo(models.Model):
     agent = models.CharField(verbose_name='服务商',max_length=10,default='NaN')
@@ -45,6 +41,7 @@ class VipUser(User):
 
     def __str__(self):
         return "-".join(self.jobNumber,self.user.name)
+'''
 
 #学校机构
 class Division(models.Model):

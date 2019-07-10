@@ -1,13 +1,12 @@
-from .models import Client,Order,ServiceType,Division,Image
-from django.core.files.base import ContentFile
+from .models import VipUser
 from django.utils import timezone
-def queryClient(unicode):
+def queryVipUser(unicode):
 #查询User用户。若用户存在，返回对象，否则返回false
     try:
-        return Client.objects.get(unionCode=unicode)
-    except Client.DoesNotExist:
+        return VipUser.objects.get(unionCode=unicode)
+    except VipUser.DoesNotExist:
         return False
-
+'''
 def clientDetail(client):
 #查询User用户的详情信息
     return  {
@@ -146,3 +145,4 @@ def receiveImage(img,orderID):
     image_content = ContentFile(img.read())
     image = Image(orderID=orderID,image=img)
     image.save()
+'''
