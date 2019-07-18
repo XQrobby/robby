@@ -104,7 +104,9 @@ class Order(models.Model):
     serviceType = models.ForeignKey(ServiceType,verbose_name='服务类型',on_delete=models.DO_NOTHING)
     addr = models.CharField(verbose_name='报修地址',max_length=50)
     model = models.CharField(verbose_name='物品型号',max_length=20)
-    faultDescription = models.TextField(verbose_name='故障描述')
+    faultDescription = models.TextField(verbose_name='故障描述',default='NaN')
+    faultContent = models.TextField(verbose_name='故障内容',default='NaN')
+    costList = models.TextField(verbose_name='维修明细',default='NaN')
     #定义选项
     evaluation = models.CharField(verbose_name='订单评价',max_length=200)
     level = models.CharField(verbose_name='星级',max_length=2,choices=ORDER_LEVEL_CHOICES,blank=True)

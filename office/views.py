@@ -21,10 +21,46 @@ def login(request):
         if vipUser:
             vipUser.loginCode = request.POST.get('code')
             vipUser.save()
+            userInfoP = {
+                'name':vipUser.name,
+                'jobNumber':vipUser.jobNumber,
+                'address':vipUser.address,
+                'agent':vipUser.level.vipUserType.agent,
+                'typ':vipUser.level.vipUserType.typ,
+                'level':vipUser.level.level
+            }
             return JsonResponse({
                 'status':True,
+                'userInfoP':userInfoP,
+                'unionCode':unionCode,
             })
         else:
             #用户初始化
-            return JsonResponse({'status':'none'})
+            return JsonResponse({'status':'none','vipUserTypes':query.types(),'unionCode':unionCode})
+    return JsonResponse({'status':False})
+
+def enroll(requests):
+    if requests.method == 'POST':
+        content = requests.POST.dict()
+        print(content)
+        query.enroll(content)
+        return JsonResponse({'status':True})
+    else:
+        return JsonResponse({'status':False})
+
+def taskList(requests):
+    if requests.method == 'POST':
+        content = requests.POST.dict()
+        if query.checkLogin(content['unionCode'],content['code']):
+            return JsonResponse({
+                'status':True,
+                'orders':query.ordersInfo(content['unionCode'],content['showCount'])
+                })
+    return JsonResponse({'status':False})
+
+def order(request):
+    if request.method == 'POST':
+        content = request.POST.dict()
+        if query.checkLogin(content['unionCode'],content['code']):
+            return JsonResponse({'status':True,'order':query.order(content['orderID'])})
     return JsonResponse({'status':False})
