@@ -1,5 +1,5 @@
 from django.db import models
-
+from office.models import VipUser
 # Create your models here.
 class User(models.Model):
     registerTime = models.DateTimeField(verbose_name='注册时间',auto_now_add=True)
@@ -100,7 +100,7 @@ class Order(models.Model):
     )
     createTime = models.DateTimeField(verbose_name='创建时间',auto_now_add=True)
     orderType = models.CharField(verbose_name='订单类型',max_length=4,default='个人订单',choices=ORDER_TYPE_CHOICES)
-    technician = models.CharField(verbose_name='维修员',max_length=50,default='NaN')
+    technician = models.ForeignKey(VipUser,verbose_name='维修员',on_delete=models.DO_NOTHING,related_name='order',null=True,blank=True)
     serviceType = models.ForeignKey(ServiceType,verbose_name='服务类型',on_delete=models.DO_NOTHING)
     addr = models.CharField(verbose_name='报修地址',max_length=50)
     model = models.CharField(verbose_name='物品型号',max_length=20)
@@ -108,15 +108,15 @@ class Order(models.Model):
     faultContent = models.TextField(verbose_name='故障内容',default='NaN')
     costList = models.TextField(verbose_name='维修明细',default='NaN')
     #定义选项
-    evaluation = models.CharField(verbose_name='订单评价',max_length=200)
+    evaluation = models.CharField(verbose_name='订单评价',blank=True,max_length=200)
     level = models.CharField(verbose_name='星级',max_length=2,choices=ORDER_LEVEL_CHOICES,blank=True)
     orderStatus = models.CharField(verbose_name='订单状态',max_length=4,default='审核中',choices=ORDER_STATUS_CHOICES,blank=True)
-    orderLog = models.TextField(verbose_name='订单日志')
+    orderLog = models.TextField(verbose_name='订单日志',blank=True)
     serviceStatus = models.CharField(verbose_name='服务状态',max_length=4,default='下派中',choices=SERVICE_STATUS_CHOICES)
-    serviceLog = models.TextField(verbose_name='服务日志')
+    serviceLog = models.TextField(verbose_name='服务日志',blank=True)
     cancel = models.BooleanField(verbose_name='撤销',default=False)
     #学校订单属性
-    division = models.ForeignKey(Division,verbose_name='单位/院系/部门',on_delete=models.DO_NOTHING,null=True)
+    division = models.ForeignKey(Division,verbose_name='单位/院系/部门',on_delete=models.DO_NOTHING,null=True,blank=True)
     audit = models.BooleanField(verbose_name='审核员审核',default=False)
     
     def __str__(self):

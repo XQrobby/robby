@@ -1,10 +1,22 @@
 from django.db import models
 
 # Create your models here.
-from snack.models import User
 from django.utils.timezone import now
-#vip用户信息
 
+class User(models.Model):
+    registerTime = models.DateTimeField(verbose_name='注册时间',auto_now_add=True)
+    name = models.CharField(verbose_name='姓名',max_length=10,default='NaN')
+    tel = models.CharField(verbose_name='联系电话',max_length=11,default='NaN')
+    #小程序关于服务器的唯一标识
+    unionCode = models.CharField(verbose_name='unionCode',max_length=50,default='NaN')
+    #loginCode用于验证用户身份，在登录时更新。appCode==loginCode
+    loginCode = models.CharField(verbose_name='微信登录凭证',max_length=50,default='NaN')
+    
+    class Meta:
+        abstract = True
+
+
+#vip用户信息
 class VipUserType(models.Model):
     agent = models.CharField(verbose_name='服务商',max_length=10,default='NaN')
     typ = models.CharField(verbose_name='用户种类',max_length=10,default='NaN')
