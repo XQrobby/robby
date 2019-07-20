@@ -1,6 +1,7 @@
 from .models import Client,Order,ServiceType,Division,Image
 from django.core.files.base import ContentFile
 from django.utils import timezone
+from office.dateBaseQuery import wOrderLog
 def queryClient(unicode):
 #查询User用户。若用户存在，返回对象，否则返回false
     try:
@@ -66,6 +67,7 @@ def changeClientInfo(content):
     client.addrs = content['addrs']
     client.save()
 
+
 def createOrder(content):
     order = Order(
         client = Client.objects.get(unionCode=content['unionCode']),
@@ -76,6 +78,7 @@ def createOrder(content):
         orderType = '个人订单',
     )
     order.save()
+    wOrderLog(order,'普通用户',content['unionCode'],'创建订单')
     return order
 
 def createScholarOrder(content):
@@ -89,6 +92,7 @@ def createScholarOrder(content):
             orderType = '学校订单',
         )
     order.save()
+    wOrderLog(order,'普通用户',content['unionCode'],'创建订单')
     return order
 
 
@@ -132,12 +136,13 @@ def order(orderID):
             'cancel':order.cancel,
         }
 
-def cancel(orderID):
+def cancel(orderID,unionCode):
     try:
         order = Order.objects.get(orderID=orderID)
         order.cancel = True
         order.orderStatus = '已撤销'
         order.save()
+        wOrderLog(order,'普通用户',unionCode,'取消订单')
         return True
     except:
         return False

@@ -1,6 +1,7 @@
 from django.db import models
 
 # Create your models here.
+
 from django.utils.timezone import now
 
 class User(models.Model):
@@ -40,14 +41,13 @@ class Level(models.Model):
     def __str__(self):
         return "-".join((self.vipUserType.agent,self.vipUserType.typ,self.level,str(self.rate)))
 
-
 class VipUser(User):
     HIRE_STATUS_CHOICES = (
         ('审核中','审核中'),
         ('已就职','已就职'),
         ('已离职','已离职'),
     )
-    jobNumber = models.CharField(verbose_name='工号',max_length=10,default='NaN')
+    jobNumber = models.CharField(verbose_name='工号',max_length=10,unique=True)
     address = models.CharField(verbose_name='地址',max_length=50,default='NaN')
 #用户类别系统 重点！！！
     level = models.ForeignKey(Level,related_name='vipUser',verbose_name='用户等级',on_delete=models.DO_NOTHING,null=True)

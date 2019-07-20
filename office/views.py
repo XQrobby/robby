@@ -64,3 +64,11 @@ def order(request):
         if query.checkLogin(content['unionCode'],content['code']):
             return JsonResponse({'status':True,'order':query.order(content['orderID'])})
     return JsonResponse({'status':False})
+
+def repair(request):
+    if request.method == 'POST':
+        content = request.POST.dict()
+        if query.checkLogin(content['unionCode'],content['code']):
+            serviceStatus = query.repair(content['unionCode'],content['orderID'])
+            return JsonResponse({'status':True,'serviceStatus':serviceStatus})
+    return JsonResponse({'status':False})

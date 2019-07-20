@@ -21,6 +21,8 @@ class Client(User):
     section = models.CharField(verbose_name='单位',max_length=20,default='NaN')
     clas = models.CharField(verbose_name='院系/部门',max_length=20,default='NaN')
 
+    def __str__(self):
+        return '-'.join((self.name,self.tel[-4:]))
 '''
 #vip用户信息
 class VipUserInfo(models.Model):

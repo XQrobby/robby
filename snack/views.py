@@ -80,5 +80,5 @@ def cancel(request):
     if request.method == 'POST':
         content = request.POST.dict()
         if query.checkLogin(content['unionCode'],content['code']):
-            return JsonResponse({'status':query.cancel(content['orderID'])})
+            return JsonResponse({'status':query.cancel(content['orderID'],content['unionCode'])})
     return JsonResponse({'status':False})
