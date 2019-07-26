@@ -100,6 +100,7 @@ class Order(models.Model):
         on_delete=models.DO_NOTHING,
         related_name='order'
     )
+    is_assess = models.BooleanField(verbose_name='调度员分配',default=False)
     createTime = models.DateTimeField(verbose_name='创建时间',auto_now_add=True)
     orderType = models.CharField(verbose_name='订单类型',max_length=4,default='个人订单',choices=ORDER_TYPE_CHOICES)
     technician = models.ForeignKey(VipUser,verbose_name='维修员',on_delete=models.DO_NOTHING,related_name='order',null=True,blank=True)
@@ -130,5 +131,6 @@ def get_photo_path(isinstance,filename):
     return 'images/%s/%s'%(productionName,filename)
 
 class Image(models.Model):
+    order = models.ForeignKey(Order,related_name='img',on_delete=models.CASCADE,verbose_name='订单',blank=True,null=True)
     orderID = models.CharField(verbose_name='订单序号',max_length=20)
     image = models.ImageField(upload_to=get_photo_path)

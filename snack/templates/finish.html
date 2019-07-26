@@ -1,0 +1,15 @@
+{% extends "admin/base.html" %}
+{% block title %}
+{{ 订单完修 }} | {{ site_title|default:_('Django site admin') }}
+{% endblock %}
+{% block branding %}
+<div>确定完修</div>
+{% endblock %}
+{% block content %}
+<form action="{% url 'snack:affirm' %}" method="POST">
+    <input type="hidden" name="order_id" value="{{order_id}}">
+    <input type="hidden" name="user_id" value="{{user.id}}">
+    <input type="submit" value='确认完修'>
+    <input type="button" value="取消" >
+</form>
+{% endblock %}

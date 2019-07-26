@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from django.http.response import JsonResponse
+from django.http.response import JsonResponse,HttpResponseRedirect
 from django.http.request import HttpRequest
 from requests import get
 from .models import Order
+from office.models import VipUser
 import snack.dateBaseQuery as query
 # Create your views here.
 def login(request):
@@ -72,7 +73,6 @@ def order(request):
     if request.method == 'POST':
         content = request.POST.dict()
         if query.checkLogin(content['unionCode'],content['code']):
-            
             return JsonResponse({'status':True,'order':query.order(content['orderID'])})
     return JsonResponse({'status':False})
 
@@ -82,3 +82,41 @@ def cancel(request):
         if query.checkLogin(content['unionCode'],content['code']):
             return JsonResponse({'status':query.cancel(content['orderID'],content['unionCode'])})
     return JsonResponse({'status':False})
+
+def assess(request,order_id):
+    order = Order.objects.get(id=order_id)
+    if order.is_assess:
+        return HttpResponseRedirect(redirect_to='/admin/snack/order/')
+    else:
+        context = {
+            'order_id':order_id,
+            'techs':VipUser.objects.all()
+        }
+        return render(request,'order_assess.html',context)
+
+def choiceTech(request):
+    if request.method == 'POST':
+        if 'tech_id' in request.POST:
+            content = request.POST.dict()
+            order = Order.objects.get(id=content['order_id'])
+            if order.technician:
+                pass 
+            else:
+                query.setTech(content)
+    return HttpResponseRedirect(redirect_to='/admin/snack/order/')
+
+def finish(request,order_id):
+    context = {'order_id':order_id}
+    return render(request,'finish.html',context)
+
+def affirm(request):
+    if request.method == 'POST':
+        content = request.POST.dict()
+        query.affirmFinish(content)
+    return HttpResponseRedirect(redirect_to='/admin/snack/order/')
+
+def photo(request,order_id):
+    order = Order.objects.get(id=order_id)
+    urls = ['/media/'+img.image.url for img in order.img.all()]
+    context = {'urls':urls}
+    return render(request,'photos.html',context)

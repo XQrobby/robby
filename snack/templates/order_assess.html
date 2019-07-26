@@ -1,0 +1,17 @@
+{% extends "admin/base.html" %}
+{% block title %}
+{{ 订单下派 }} | {{ site_title|default:_('Django site admin') }}
+{% endblock %}
+    <div>订单下派</div>
+{% block branding %}
+{% endblock %}
+{% block content %}
+<form action="{% url 'snack:choiceTech' %}" method="POST">
+    {% for tech in techs %}
+        {{ tech.name }} <input type="radio" name="tech_id" value="{{tech.id}}">
+    {% endfor %}
+    <input type="hidden" name="order_id" value="{{order_id}}">
+    <input type="hidden" name="user_id" value="{{user.id}}">
+    <input type="submit" name="通过审核">
+</form>
+{% endblock %}

@@ -10,4 +10,9 @@ urlpatterns = [
     path('orderList/',views.orderList),
     path('order/',views.order),
     path('cancel/',views.cancel),
+    path('assess_id=<int:order_id>/',views.assess,name='assess'),
+    path('choiceTech/',views.choiceTech,name='choiceTech'),
+    path('finish_id=<int:order_id>/',views.finish,name='finish'),
+    path('affirm_finish/',views.affirm,name='affirm'),
+    path('photo=<int:order_id>/',views.photo,name='photo'),
 ]

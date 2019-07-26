@@ -1,0 +1,13 @@
+{% extends "admin/base.html" %}
+{% block title %}
+{{ 图片 }} | {{ site_title|default:_('Django site admin') }}
+{% endblock %}
+{% block branding %}
+<div>图片</div>
+{% endblock %}
+{% block content %}
+    <h1>图片</h1>
+    {% for url in urls %}
+    <img src="{{url}}">
+    {% endfor %}
+{% endblock %}

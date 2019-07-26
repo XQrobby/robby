@@ -1,7 +1,9 @@
 from .models import Client,Order,ServiceType,Division,Image
+from office.models import VipUser
 from django.core.files.base import ContentFile
 from django.utils import timezone
-from office.dateBaseQuery import wOrderLog
+from office.dateBaseQuery import wOrderLog,wServiceLog
+
 def queryClient(unicode):
 #查询User用户。若用户存在，返回对象，否则返回false
     try:
@@ -124,7 +126,7 @@ def order(orderID):
             'orderID':order.orderID,
             'client':order.client.name,
             'orderType':order.orderType,
-            'technician':order.technician,
+            'technician':order.technician.name,
             'serviceType':order.serviceType.typ,
             'addr':order.addr,
             'model':order.model,
@@ -134,6 +136,7 @@ def order(orderID):
             'orderStatus':order.orderStatus,
             'serviceStatus':order.serviceStatus,
             'cancel':order.cancel,
+            'costList':order.costList,
         }
 
 def cancel(orderID,unionCode):
@@ -148,6 +151,25 @@ def cancel(orderID,unionCode):
         return False
 
 def receiveImage(img,orderID):
+    order = Order.objects.get(orderID=orderID)
     image_content = ContentFile(img.read())
     image = Image(orderID=orderID,image=img)
+    image.order = order
     image.save()
+
+def setTech(content):
+    order = Order.objects.get(id=content['order_id'])
+    tech = VipUser.objects.get(id=content['tech_id'])
+    order.technician = tech
+    order.orderStatus = '等待维修'
+    order.serviceStatus = '待维修'
+    order.is_assess = True
+    order.save()
+    wOrderLog(order,'调度员',content['user_id'],'下派订单-->'+tech.name)
+    wServiceLog(order,'调度员',content['user_id'],'下派订单-->'+tech.name)
+
+def affirmFinish(content):
+    order = Order.objects.get(id=content['order_id'])
+    order.orderStatus = '已完修'
+    order.save()
+    wOrderLog(order,'调度员',content['user_id'],'订单完修')
