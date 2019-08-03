@@ -46,7 +46,7 @@ def develop(request):
     sha1Str = sha1.hexdigest()
     print(sha1Str == content['signature'],content)
     #验证签名
-    if sha1Str is content['signature']:
+    if sha1Str == content['signature']:
         return HttpResponse(content['echostr'])
     return JsonResponse({"status":False})
 
