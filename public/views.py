@@ -7,6 +7,7 @@ import public.dateBaseQuery as query
 import hashlib
 
 # Create your views here.
+'''
 WECHAT_TOKEN = 'hello'
 def wechat(request):
     if request.method == 'GET':
@@ -34,21 +35,42 @@ def wechat(request):
         return response
     else:
         logger.info('-----------------')    
+'''
+
+def autoreply(request):
+    try:
+        msg = parse_message(request.body)
+        if msg.type == 'text':
+            reply = create_reply('这是条文字消息',msg)
+        elif msg.type == 'image':
+            reply = create_reply('这是条图片消息',msg)
+        elif msg.type == 'voice':
+            reply = create_reply('这是条语音消息',msg)
+        else:
+            reply = create_reply('这是条其他类型消息',msg)
+        response = HttpResponse(reply.render(),context_type='application/xml')
+        return response
+    else:
+        logger.info('-----------------')  
 
 def develop(request):
-    token = 'robbyHtml'
-    #计算加密
-    content = request.GET.dict()
-    sha1 = hashlib.sha1()
-    arr = [content['timestamp'],content['nonce'],token]
-    arr.sort()
-    sha1.update(''.join(arr).encode('utf-8'))
-    sha1Str = sha1.hexdigest()
-    print(sha1Str == content['signature'],content)
-    #验证签名
-    if sha1Str == content['signature']:
-        return HttpResponse(content['echostr'])
-    return JsonResponse({"status":False})
+    if request.method == "GET"
+        token = 'robbyHtml'
+        #计算加密
+        content = request.GET.dict()
+        sha1 = hashlib.sha1()
+        arr = [content['timestamp'],content['nonce'],token]
+        arr.sort()
+        sha1.update(''.join(arr).encode('utf-8'))
+        sha1Str = sha1.hexdigest()
+        print(sha1Str == content['signature'],content)
+        #验证签名
+        if sha1Str == content['signature']:
+            return HttpResponse(content['echostr'])
+        return JsonResponse({"status":False})
+    elif request.method == 'POST':
+        print(request.POST)
+        return JsonResponse({"status":'success'})
 
 def access_token(request):
     access_token = query.use_access_token()
