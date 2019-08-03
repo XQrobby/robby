@@ -52,4 +52,4 @@ def develop(request):
 
 def access_token(request):
     access_token = query.use_access_token
-    return JsonResponse({"access_token":access_token})
+    return JsonResponse({"access_token":access_token.access_token})

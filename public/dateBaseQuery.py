@@ -2,20 +2,22 @@ from .models import AssessToken,App
 import datetime
 from requests import request
 
+#从数据库查询access_token对象
+def query_access_token():
+    return AssessToken.objects.all()[0]
+
 #保存access_token
 def save_access_token(access_token):
     save_time = datetime.datetime.now()
     data_line = save_time + datetime.timedelta(seconds=6950)
     try:
-        token = AssessToken.objects.all()[0]
+        token = query_access_token()
         token.access_token = access_token
         token.save_time = save_time
         token.data_line = data_line
     except:
         token = AssessToken(access_token=access_token,save_time=save_time,datetime=data_line)
     token.save()
-    #返回access_token对象
-    return token
 
 #检验access_token的有效性,有效返回True
 def check_assessToken(token):
@@ -33,7 +35,7 @@ def get_access_token():
 def use_access_token():
     token = ''
     try:
-        access_token = AssessToken.objects.all()[0]
+        access_token = query_access_token()
         #验证access_token的有效性
         if check_assessToken(access_token):
             token = access_token.access_token
@@ -45,7 +47,8 @@ def use_access_token():
             
     except:
         #access_token不存在，对access_token进行初始化
-        access_token = get_access_token()
+        get_access_token()
+        access_token = query_access_token()
         return access_token.access_token 
     
 
