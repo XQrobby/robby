@@ -50,3 +50,6 @@ def develop(request):
         return HttpResponse(content['echostr'])
     return JsonResponse({"status":False})
 
+def access_token(request):
+    access_token = query.use_access_token
+    return JsonResponse({"access_token":access_token})

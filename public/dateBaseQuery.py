@@ -14,6 +14,8 @@ def save_access_token(access_token):
     except:
         token = AssessToken(access_token=access_token,save_time=save_time,datetime=data_line)
     token.save()
+    #返回access_token对象
+    return token
 
 #检验access_token的有效性,有效返回True
 def check_assessToken(token):
@@ -28,6 +30,24 @@ def get_access_token():
     res = r.json()
     save_access_token(res['access_token'])
 
-def usr_access_token():
-    pass
+def use_access_token():
+    token = ''
+    try:
+        access_token = AssessToken.objects.all()[0]
+        #验证access_token的有效性
+        if check_assessToken(access_token):
+            token = access_token.access_token
+            return token
+        else:
+            #access_token无效，重新获取access_token
+            access_token = get_access_token()
+            return access_token.access_token
+            
+    except:
+        #access_token不存在，对access_token进行初始化
+        access_token = get_access_token()
+        return access_token.access_token 
+    
+
+
 
