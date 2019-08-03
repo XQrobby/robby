@@ -21,10 +21,12 @@ class ScholarUser(User):
     def __str__(self):
         return " ".join((self.user.id,self.user.name,self.clas))
 
+
 class AssessToken(models.Model):
-    access_token = models.TextField(verbose_name='api调用凭证')
+    access_token = models.TextField(verbose_name='api调用凭证',default="NaN")
     save_time = models.DateTimeField(verbose_name='保存时间',auto_now=True)
     data_line = models.DateTimeField(verbose_name='最后有效时间',blank=True,null=True)
+
 
 class App(models.Model):
     appid = models.CharField(default='NaN',max_length=100)

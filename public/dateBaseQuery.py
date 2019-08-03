@@ -16,7 +16,7 @@ def save_access_token(access_token):
         token.save_time = save_time
         token.data_line = data_line
     except:
-        token = AssessToken(access_token=access_token,save_time=save_time,datetime=data_line)
+        token = AssessToken(access_token=access_token,save_time=save_time,data_line=data_line)
     token.save()
 
 #检验access_token的有效性,有效返回True
