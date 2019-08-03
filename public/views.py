@@ -1,8 +1,10 @@
 from django.shortcuts import render
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse,JsonResponse
 from wechatpy import parse_message,create_reply
 from wechatpy.exceptions import InvalidSignatureException
 from wechatpy.utils import check_signature
+import public.dateBaseQuery as query
+import hashlib
 
 # Create your views here.
 WECHAT_TOKEN = 'hello'
@@ -32,3 +34,19 @@ def wechat(request):
         return response
     else:
         logger.info('-----------------')    
+
+def develop(request):
+    token = 'robbyHtml'
+    #计算加密
+    content = request.GET.dict()
+    sha1 = hashlib.sha1()
+    arr = [content['timestamp'],content['nonce'],token]
+    arr.sort()
+    sha1.update(''.join(arr).encode('utf-8'))
+    sha1Str = sha1.hexdigest()
+    print(sha1Str == content['signature'],content)
+    #验证签名
+    if sha1Str is content['signature']:
+        return HttpResponse(content['echostr'])
+    return JsonResponse({"status":False})
+

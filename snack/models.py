@@ -23,27 +23,6 @@ class Client(User):
 
     def __str__(self):
         return '-'.join((self.name,self.tel[-4:]))
-'''
-#vip用户信息
-class VipUserInfo(models.Model):
-    agent = models.CharField(verbose_name='服务商',max_length=10,default='NaN')
-    vipUserType = models.CharField(verbose_name='用户种类',max_length=10,default='NaN')
-    level = models.CharField(verbose_name='技术等级',max_length=4,default='NaN')
-    rate = models.FloatField(verbose_name='提成率',default=0)    
-
-#vipUser属性
-class VipUser(User):
-    jobNumber = models.CharField(verbose_name='工号',max_length=10,default='NaN')
-    address = models.CharField(verbose_name='地址',max_length=50,default='NaN')
-#用户类别系统 重点！！！
-    vipUserInfo = models.ForeignKey(VipUserInfo,verbose_name='用户信息',on_delete=models.DO_NOTHING,blank=True)
-    hiredate = models.DateTimeField(verbose_name='入职时间',default=now)
-    hire = models.BooleanField(verbose_name='就职状态',default=True)
-    dimissionTime = models.DateTimeField(verbose_name='离职时间',blank=True)
-
-    def __str__(self):
-        return "-".join(self.jobNumber,self.user.name)
-'''
 
 #学校机构
 class Division(models.Model):
@@ -52,12 +31,13 @@ class Division(models.Model):
 
     def __str__(self):
         return '-'.join((self.section,self.clas))
-
+'''
 #scholarUser用户属性
 class ScholarUser(User):
     division = models.ForeignKey(Division,verbose_name='单位/院系/部门',on_delete=models.DO_NOTHING,blank=True)
     def __str__(self):
         return " ".join((self.user.id,self.user.name,self.clas))
+'''
 
 #服务类型
 class ServiceType(models.Model):

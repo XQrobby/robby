@@ -17,9 +17,13 @@ def login(request):
             'grant_type':'authorization_code'
             }
         res = get(api,params=payload,verify=False,timeout=3).json()
-        #检查User是否存在
-        unionCode = res['openid']
-        client = query.queryClient(unionCode)
+            #检查User是否存在
+        try:
+            unionCode = res['openid']
+            client = query.queryClient(unionCode)
+        except:
+            print('errcode:',res['errcode'])
+            return JsonResponse({'status':'请检查appid'})
         if client:
             client.loginCode = request.POST.get('code')
             client.save()
