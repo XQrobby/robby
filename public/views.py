@@ -59,7 +59,6 @@ def develop(request):
             response.autoreply(request)
         except Exception as e:
             print(e.args)
-        return HttpResponse('success')
 
 def access_token(request):
     access_token = query.use_access_token()
