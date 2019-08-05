@@ -19,7 +19,7 @@ def autoreply(request):
             print('这是条其他类型消息')
         xml = reply.render()
         xml = ''.join(xml.split('\n'))
-        print('生成返回信息：\n','\n' in xml)
+        print('生成返回信息：\n',xml,'\n' in xml)
         return HttpResponse(xml)
     except:
         reply = create_reply('---------',msg)  
