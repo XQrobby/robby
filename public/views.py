@@ -39,7 +39,7 @@ def wechat(request):
 '''
 
 def develop(request):
-    if request.method == "GET"
+    if request.method == "GET":
         token = 'robbyHtml'
         #计算加密
         content = request.GET.dict()
@@ -55,7 +55,10 @@ def develop(request):
         return JsonResponse({"status":False})
     elif request.method == 'POST':
         print(request.POST)
-        response.autoreply(request)
+        try:
+            response.autoreply(request)
+        except Exception as e:
+            print(e.args)
         return JsonResponse({"status":'success'})
 
 def access_token(request):
