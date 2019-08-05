@@ -1,4 +1,5 @@
 from wechatpy import parse_message,create_reply
+from django.http.response import HttpResponse,JsonResponse
 
 def autoreply(request):
     try:
@@ -14,4 +15,6 @@ def autoreply(request):
         response = HttpResponse(reply.render(),context_type='application/xml')
         return response
     except:
-        logger.info('-----------------')  
+        reply = create_reply('---------',msg)  
+        response = HttpResponse(reply.render(),context_type='application/xml')
+        return response
