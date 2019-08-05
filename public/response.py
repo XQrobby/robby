@@ -3,8 +3,8 @@ from django.http.response import HttpResponse,JsonResponse
 
 def autoreply(request):
     try:
-        print(request.body)
         msg = parse_message(request.body)
+        print(dir(msg))
         if msg.type == 'text':
             reply = create_reply('这是条文字消息',msg)
             print('这是条文字消息')
