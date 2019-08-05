@@ -18,7 +18,7 @@ def autoreply(request):
             reply = create_reply('这是条其他类型消息',msg)
             print('这是条其他类型消息')
         xml = reply.render()
-        print('生成返回信息：\n',xml)
+        print('生成返回信息：\n',xml,' ' in xml)
         return HttpResponse(xml)
     except:
         reply = create_reply('---------',msg)  
