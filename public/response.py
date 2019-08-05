@@ -20,7 +20,7 @@ def autoreply(request):
         xml = reply.render()
         xml = ''.join(xml.split('\n'))
         print('生成返回信息：\n',xml,'\n' in xml)
-        return HttpResponse(xml)
+        return HttpResponse(xml,content_type="application/xml")
     except:
         reply = create_reply('---------',msg)  
         response = HttpResponse(reply.render(),content_type='application/xml')
