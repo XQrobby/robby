@@ -2,26 +2,14 @@ from wechatpy import parse_message,create_reply
 from django.http.response import HttpResponse,JsonResponse
 
 def autoreply(request):
-    try:
-        msg = parse_message(request.body)
-        print(msg.content)
+    msg = parse_message(request.body)
         if msg.type == 'text':
-            reply = create_reply('这是条文字消息',msg)
-            print('这是条文字消息')
+            reply = create_reply('这是条文字消息', msg)
         elif msg.type == 'image':
-            reply = create_reply('这是条图片消息',msg)
-            print('这是条图片消息')
+            reply = create_reply('这是条图片消息', msg)
         elif msg.type == 'voice':
-            reply = create_reply('这是条语音消息',msg)
-            print('这是条语音消息')
+            reply = create_reply('这是条语音消息', msg)
         else:
-            reply = create_reply('这是条其他类型消息',msg)
-            print('这是条其他类型消息')
-        xml = reply.render()
-        xml = ''.join(xml.split('\n'))
-        print('生成返回信息：\n',xml,'\n' in xml)
-        return HttpResponse(xml,content_type="application/xml")
-    except:
-        reply = create_reply('---------',msg)  
-        response = HttpResponse(reply.render(),content_type='application/xml')
+            reply = create_reply('这是条其他类型消息', msg)
+        response = HttpResponse(reply.render(), content_type="application/xml")
         return response
