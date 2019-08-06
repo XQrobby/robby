@@ -91,6 +91,6 @@ def send_model_info(request):
 def setting_menu(request):
     url = 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token=%s'%(query.use_access_token())
     menu = rspon.get_menu()
-    res = post(url,data=menu)
+    res = post(url,json=menu)
     print(res.json())
     return HttpResponse('success')

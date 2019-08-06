@@ -16,19 +16,13 @@ def autoreply(request):
 
 def give_model_info(content):
     response = {
-        "touser":content['openid'],
-        "template_id":content['template_id'],
-        "topcolor":"#FF0000",
-        "data":{
-            "name":{
-                "value":content['name'],
-                "color":"#173177"
-            },
-            "time":{
-                "value":content['time'],
-                "color":"#173177"
+        "button":[
+            {
+                "type":"view",
+                "name":"Biao维修",
+                "url":"http://120.27.242.55/admin/"
             }
-        }
+        ]
     }
     return dumps(response)
 
