@@ -55,7 +55,7 @@ def develop(request):
             return HttpResponse(content['echostr'])
         return JsonResponse({"status":False})
     elif request.method == 'POST':
-        print(request.POST)
+        print(request.body)
         msg = parse_message(request.body)
         if msg.type == 'text':
             reply = create_reply('这是条文字消息', msg)
@@ -85,7 +85,7 @@ def send_model_info(request):
     response = rspon.give_model_info(content)
     url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s'%(query.use_access_token())
     res = post(url,json=response)
-    print(res)
+    print(res.body)
     return HttpResponse('success')
     
 
