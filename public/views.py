@@ -85,7 +85,7 @@ def send_model_info(request):
     response = rspon.give_model_info(content)
     url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s'%(query.use_access_token())
     res = post(url,json=response)
-    print(res.body)
+    print(dir(res))
     return HttpResponse('success')
     
 
