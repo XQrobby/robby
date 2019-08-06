@@ -31,3 +31,30 @@ def give_model_info(content):
         }
     }
     return dumps(response)
+
+def get_menu():
+    response = {
+        "button":[
+            {
+                "type":"click",
+                "name":"Biao维修",
+                "key":"mm111"
+            },
+            {
+                "name":"管理员入口",
+                "sub_button":[
+                    {
+                        "type":"view",
+                        "name":"订单管理",
+                        "url":"http://120.27.242.55/admin/"
+                    },
+                    {
+                        "type":"view",
+                        "name":"成为校方审核员",
+                        "url":"http://www.baidu.com/"
+                    }
+                ]
+            }
+        ]
+    }
+    return dumps(response)
