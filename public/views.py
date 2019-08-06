@@ -83,9 +83,8 @@ def send_model_info(request):
         'time':'8月6日15时46分',
     }
     response = rspon.give_model_info(content)
-    print(type(response),response)
     url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s'%(query.use_access_token())
-    res = post(url,json=response)
+    res = post(url,data=response)
     print(res.json())
     return HttpResponse('success')
     
