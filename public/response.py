@@ -24,7 +24,9 @@ def give_model_info(content):
             }
         ]
     }
-    return dumps(response,ensure_ascii=False)
+    res = dumps(response,ensure_ascii=False)
+    print(res)
+    return res
 
 def get_menu():
     response = {
