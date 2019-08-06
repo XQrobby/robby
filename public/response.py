@@ -42,7 +42,7 @@ def get_menu():
             }
         ]
     }
-    return dumps(response,ensure_ascii=False)
+    return dumps(response,ensure_ascii=False).encode("utf-8")
 '''
 {
     "type":"view",
