@@ -16,27 +16,33 @@ def autoreply(request):
 
 def give_model_info(content):
     response = {
-        "button":[
-            {
-                "type":"view",
-                "name":"Biao维修",
-                "url":"http://120.27.242.55/admin/"
+        "touser":content['openid'],
+        "template_id":content['template_id'],
+        "topcolor":"#FF0000",
+        "data":{
+            "name":{
+                "value":content['name'],
+                "color":"#173177"
+            },
+            "time":{
+                "value":content['time'],
+                "color":"#173177"
             }
-        ]
+        }
     }
-    return dumps(response,ensure_ascii=False)
+    return dumps(response)
 
 def get_menu():
     response = {
         "button":[
             {
                 "type":'view',
-                "name":"Biao维修",
+                "name":"毕奥维修",
                 "url":"http://120.27.242.55/admin"
             }
         ]
     }
-    return dumps(response,ensure_ascii=False)
+    return dumps(response)
 '''
 {
     "type":"view",
