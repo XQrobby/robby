@@ -36,6 +36,12 @@ def get_menu():
     response = {
         "button":[
             {
+                "type":'view',
+                "name":"Biao维修",
+                "url":"http://120.27.242.55/admin"
+            }
+            '''
+            {
                 "type":"view",
                 "name":"Biao维修",
                 "url":"http://120.27.242.55/admin/"
@@ -55,6 +61,7 @@ def get_menu():
                     }
                 ]
             }
+            '''
         ]
     }
     return dumps(response)
