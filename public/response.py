@@ -36,9 +36,9 @@ def get_menu():
     response = {
         "button":[
             {
-                "type":"click",
+                "type":"view",
                 "name":"Biao维修",
-                "key":"mm111"
+                "url":"http://120.27.242.55/admin/"
             },
             {
                 "name":"管理员入口",
