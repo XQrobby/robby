@@ -42,7 +42,7 @@ def get_menu():
             }
         ]
     }
-    return dumps(response)
+    return dumps(response,ensure_ascii=False).decode('utf8').encode('gb2312')
 '''
 {
     "type":"view",
