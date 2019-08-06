@@ -6,7 +6,7 @@ from wechatpy.utils import check_signature
 import public.dateBaseQuery as query
 import hashlib
 import public.response as rspon
-from requests import post
+from requests import post,get
 
 # Create your views here.
 '''
@@ -93,5 +93,11 @@ def setting_menu(request):
     menu = rspon.get_menu()
     print(menu)
     res = post(url,data=menu)
+    print(res.json())
+    return HttpResponse('success')
+
+def delete_menu(request):
+    url = 'https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=%s'%(query.use_access_token())
+    res = get(url)
     print(res.json())
     return HttpResponse('success')
