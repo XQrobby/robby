@@ -5,7 +5,8 @@ from wechatpy.exceptions import InvalidSignatureException
 from wechatpy.utils import check_signature
 import public.dateBaseQuery as query
 import hashlib
-import public.response as response
+import public.response as rspon
+from requests import post
 
 # Create your views here.
 '''
@@ -70,3 +71,21 @@ def develop(request):
 def access_token(request):
     access_token = query.use_access_token()
     return JsonResponse({"access_token":access_token})
+
+def set_industry(request):
+    pass
+
+def send_model_info(request):
+    content = {
+        'openid':'oo9u6t9dURFOyeyHrO3m92A-s1KM',
+        'template_id':'1FfIV4N0uMxCFsWadR38WdLOBAZC6xLNuKAbvcN7w7U',
+        'name':'robby',
+        'time':'8月6日15时46分',
+    }
+    response = rspon.give_model_info(content)
+    url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s'%(query.use_access_token())
+    res = post(url,json=response)
+    print(res)
+    return HttpResponse('success')
+    
+
