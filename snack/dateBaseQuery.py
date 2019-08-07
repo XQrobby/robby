@@ -173,3 +173,24 @@ def affirmFinish(content):
     order.orderStatus = '已完修'
     order.save()
     wOrderLog(order,'调度员',content['user_id'],'订单完修')
+
+def checkLevel(level):
+    if level == '':
+        return '无'
+    else:
+        return level
+
+def orderCheck(content):
+    try:
+        level = checkLevel(content['level'])
+        order = Order.objects.get(orderID=content['orderID'])
+        order.level = level
+        order.evaluation = content['evaluation']
+        if order.orderStatus == '已完修':
+            order.orderStatus = '已验收'
+        order.save()
+        wOrderLog(order,'普通用户',content['unionCode'],'订单完修')
+        return True
+    except Exception as e:
+        print(e)
+        return '验收未成功，请稍后重试'

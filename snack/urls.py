@@ -15,4 +15,5 @@ urlpatterns = [
     path('finish_id=<int:order_id>/',views.finish,name='finish'),
     path('affirm_finish/',views.affirm,name='affirm'),
     path('photo=<int:order_id>/',views.photo,name='photo'),
+    path('orderCheck/',views.orderCheck,name='orderCheck'),
 ]

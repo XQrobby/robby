@@ -124,3 +124,12 @@ def photo(request,order_id):
     urls = ['/media/'+img.image.url for img in order.img.all()]
     context = {'urls':urls}
     return render(request,'photos.html',context)
+
+def orderCheck(requests):
+    if requests.method == "POST":
+        content = requests.POST.dict()
+        if query.checkLogin(content['unionCode'],content['code']):
+            res = query.orderCheck(content)
+        print(requests.POST)
+        return JsonResponse({"status":res})
+    return JsonResponse({"status":False})

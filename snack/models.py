@@ -53,7 +53,8 @@ class Order(models.Model):
         ('四星','四星'),
         ('三星','三星'),
         ('二星','二星'),
-        ('一星','一星')
+        ('一星','一星'),
+        ('无','无')
     )
     #订单状态/服务状态 未完成
     ORDER_STATUS_CHOICES = (
@@ -92,7 +93,7 @@ class Order(models.Model):
     costList = models.TextField(verbose_name='维修明细',default='NaN')
     #定义选项
     evaluation = models.CharField(verbose_name='订单评价',blank=True,max_length=200)
-    level = models.CharField(verbose_name='星级',max_length=2,choices=ORDER_LEVEL_CHOICES,blank=True)
+    level = models.CharField(verbose_name='星级',max_length=2,choices=ORDER_LEVEL_CHOICES,default='无')
     orderStatus = models.CharField(verbose_name='订单状态',max_length=4,default='审核中',choices=ORDER_STATUS_CHOICES,blank=True)
     orderLog = models.TextField(verbose_name='订单日志',blank=True)
     serviceStatus = models.CharField(verbose_name='服务状态',max_length=4,default='下派中',choices=SERVICE_STATUS_CHOICES)
