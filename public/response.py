@@ -3,6 +3,10 @@ from django.http.response import HttpResponse,JsonResponse
 from json import dumps
 def autoreply(request):
     msg = parse_message(request.body)
+    reply = create_reply('',msg)
+    if msg.event:
+        if msg.event == 'subscribe':
+            reply = create_reply('感谢关注',msg)
     if msg.type == 'text':
         reply = create_reply('这是条文字消息', msg)
     elif msg.type == 'image':
