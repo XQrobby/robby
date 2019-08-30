@@ -4,6 +4,7 @@ from json import dumps
 def autoreply(request):
     msg = parse_message(request.body)
     reply = create_reply('',msg)
+    print("type:%s/n"(msg.type),dir(msg))
     if msg.event:
         if msg.event == 'subscribe':
             reply = create_reply('感谢关注',msg)
