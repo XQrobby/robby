@@ -55,11 +55,7 @@ def develop(request):
             return HttpResponse(content['echostr'])
         return JsonResponse({"status":False})
     elif request.method == 'POST':
-        print('body:',request.body,'\npost:',request.POST)
-        try:
-            print(request.POST.get('signature'))
-        except:
-            print('dont exeist')
+        print('body:',request.body,'\npost:',dir(request))
         response = rspon.autoreply(request)
         return response
 
