@@ -94,5 +94,6 @@ def delete_menu(request):
     return HttpResponse('success')
 
 def enrollScholarUser(request):
+    print('get:',request.GET,'\npost:'request.POST)
     content = {}
     return render(request,'enrollScholarUser.html',content)

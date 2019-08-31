@@ -56,7 +56,7 @@ def get_menu():
                     {
                         "type":"view",
                         "name":"成为校方审核员",
-                        "url":"http://120.27.242.55/admin/"
+                        "url":"http://120.27.242.55/public/enrollScholarUser/"
                     }
                 ]
             }
