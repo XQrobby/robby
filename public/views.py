@@ -58,6 +58,8 @@ def develop(request):
         print('body:',request.body,'\npost:',request.POST)
         try:
             print(request.POST.get('signature'))
+        except:
+            print('dont exeist')
         response = rspon.autoreply(request)
         return response
 
