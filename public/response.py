@@ -4,7 +4,7 @@ from json import dumps
 def autoreply(request):
     msg = parse_message(request.body)
     reply = create_reply('',msg)
-    print("type:",msg.type,"/n",dir(msg))
+    print("type:",msg.type,"\n",dir(msg))
     if msg.type == 'text':
         reply = create_reply('这是条文字消息', msg)
     elif msg.type == 'image':
