@@ -55,7 +55,7 @@ def develop(request):
             return HttpResponse(content['echostr'])
         return JsonResponse({"status":False})
     elif request.method == 'POST':
-        print('body:',request.body,'\npost:',dir(request),request.META)
+        print('body:',request.body,'\npost:',dir(request),'\nfiles:',request.FILES,'\nget:',request.GET,'\npost:',request.POST)
         response = rspon.autoreply(request)
         return response
 
