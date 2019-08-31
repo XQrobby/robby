@@ -92,3 +92,7 @@ def delete_menu(request):
     res = get(url)
     print(res.json())
     return HttpResponse('success')
+
+def enrollScholarUser(request):
+    content = {}
+    return render(request,'enrollScholarUser.html',content)
