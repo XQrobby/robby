@@ -55,7 +55,9 @@ def develop(request):
             return HttpResponse(content['echostr'])
         return JsonResponse({"status":False})
     elif request.method == 'POST':
-        print('body:',request.body,'\npost:',request.POST,'\nrequest:',request)
+        print('body:',request.body,'\npost:',request.POST)
+        try:
+            print(request.POST.get('signature'))
         response = rspon.autoreply(request)
         return response
 
