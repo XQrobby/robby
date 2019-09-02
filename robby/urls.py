@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf.urls import url
 from django.views.static import serve#导入serve方法
-from robby.settings import MEDIA_ROOT#导入项目设置 
+from robby.settings import MEDIA_ROOT,STATIC_URL#导入项目设置 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,4 +25,5 @@ urlpatterns = [
     path('public/',include('public.urls',namespace='public')),
     path('office/',include('office.urls',namespace='office')),
     url(r'media/(?P<path>.*)',serve,{"document_root":MEDIA_ROOT}),
+    url(r'(?P<path>.*)',serve,{"document_root":STATIC_URL}),
 ]
