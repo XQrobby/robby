@@ -1,5 +1,6 @@
 from wechatpy import parse_message,create_reply
 from django.http.response import HttpResponse,JsonResponse
+from .models import App
 from json import dumps
 def autoreply(request):
     msg = parse_message(request.body)
@@ -38,6 +39,7 @@ def give_model_info(content):
     return dumps(response)
 
 def get_menu():
+    app = App.objects.all()[0]
     response = {
         "button":[
             {
@@ -54,9 +56,9 @@ def get_menu():
                         "url":"http://120.27.242.55/admin/"
                     },
                     {
-                        "type":"click",
+                        "type":"view",
                         "name":"成为校方审核员",
-                        "key":"ToBeScholarUser"
+                        "url":"https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=http://www.robbyzhang.cn/public/enrollScholarUser/&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect"%(app.appid)
                     }
                 ]
             }
