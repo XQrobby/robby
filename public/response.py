@@ -1,6 +1,7 @@
 from wechatpy import parse_message,create_reply
 from django.http.response import HttpResponse,JsonResponse
 from .models import App
+from requests import get
 from json import dumps
 def autoreply(request):
     msg = parse_message(request.body)
@@ -65,3 +66,8 @@ def get_menu():
         ]
     }
     return dumps(response,ensure_ascii=False).encode("utf-8")
+
+def get_openid(appid,secret,code):
+    url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code'%(appid,secret,code)
+    res = get(url)
+    print(res)

@@ -94,6 +94,13 @@ def delete_menu(request):
     return HttpResponse('success')
 
 def enrollScholarUser(request):
+    content = request.GET.dict()
+    app = App.objects.all()[0]
+    rspon.get_openid(app.appid,app.secret,content['code'])
+    '''
+    
     print('get:',request.GET,'\npost:',request.POST)
-    content = {}
-    return render(request,'enrollScholarUser.html',content)
+    url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code'%()
+    '''
+    context = {}
+    return render(request,'enrollScholarUser.html',context)
