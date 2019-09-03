@@ -111,5 +111,5 @@ def createScholarUser(request):
 
 def getDivisions(request):
     if request.method == 'GET':
-        return HttpResponse(json.dump(divisionForm))
+        return HttpResponse(json.dump(divisionForm()))
     return HttpResponse('get')
