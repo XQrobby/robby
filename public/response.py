@@ -70,4 +70,4 @@ def get_menu():
 def get_openid(appid,secret,code):
     url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code'%(appid,secret,code)
     res = get(url)
-    print(res)
+    print(res.json())
