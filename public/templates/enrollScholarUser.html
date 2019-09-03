@@ -14,7 +14,7 @@
         <input type="hidden" name='unionCode' value='{{ openid }}'>
         <select name="section">
             {% for division in divisions.keys %}
-                <option value="division">{{division}}</option>
+                <option value="{{division}}">{{division}}</option>
             {% endfor %}
         </select>
         {% if section %}
@@ -22,5 +22,8 @@
         {% endif %}
         <button name="submit">提交</button>
     </form>
+    <script type="text/javascript">
+        console.log(section)
+    </script>
 </body>
 </html>
