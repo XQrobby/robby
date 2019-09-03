@@ -12,6 +12,14 @@
         <p><label>姓名：<input name="name" type="text"></label></p>
         <p><label>电话：<input name="tel" type="tel"></label></p>
         <input type="hidden" name='unionCode' value='{{ openid }}'>
+        <select name="section">
+            {% for division in divisions.keys() %}
+                <option value="division">{{division}}</option>
+            {% endfor %}
+        </select>
+        {% if section %}
+            <p>部门</p>
+        {% endif %}
         <button name="submit">提交</button>
     </form>
 </body>
