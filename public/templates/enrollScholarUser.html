@@ -8,7 +8,7 @@
         }else{
             xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
         }
-        xmlhttp.open('POST','http://robbyzhang.cn/public/getDivisions/',true)
+        xmlhttp.open('GET','http://robbyzhang.cn/public/getDivisions/',true)
         xmlhttp.send()
         var divisions = eval(xmlhttp.responseText)
         console.log(divisions)
