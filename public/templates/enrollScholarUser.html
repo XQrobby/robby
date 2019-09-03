@@ -8,6 +8,11 @@
 </head>
 <body>
     <h1>hello</h1>
-    
+    <form action="{% url 'public:createScholarUser' %}" method="post">
+        <p><label>姓名：<input name="name" type="text"></label></p>
+        <p><label>电话：<input name="tel" type="tel"></label></p>
+        <input type="hidden" name='unionCode' value='{{ openid }}'>
+        <button name="submit">提交</button>
+    </form>
 </body>
 </html>

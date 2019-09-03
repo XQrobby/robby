@@ -11,4 +11,5 @@ urlpatterns = [
     path('setting_menu/',views.setting_menu,name='setting_menu'),
     path('delete_menu/',views.delete_menu,name="delete_menu"),
     path('enrollScholarUser/',views.enrollScholarUser,name='enrollScholarUser'),
+    path('createScholarUser/',views.createScholarUser,name='createScholarUser'),
 ]

@@ -97,11 +97,10 @@ def delete_menu(request):
 def enrollScholarUser(request):
     content = request.GET.dict()
     app = App.objects.all()[0]
-    rspon.get_openid(app.appid,app.secret,content['code'])
-    '''
-    
-    print('get:',request.GET,'\npost:',request.POST)
-    url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code'%()
-    '''
-    context = {}
+    openid = rspon.get_openid(app.appid,app.secret,content['code'])
+    context = {'openid':openid}
     return render(request,'enrollScholarUser.html',context)
+
+def createScholarUser(request):
+    print(request.POST)
+    return JsonResponse({'status':'success'})
