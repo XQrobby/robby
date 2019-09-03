@@ -45,7 +45,7 @@ def get_menu():
         "button":[
             {
                 "type":"view",
-                "name":"Biao维修",
+                "name":"Beao维修",
                 "url":"http://120.27.242.55/admin/"
             },
             {
