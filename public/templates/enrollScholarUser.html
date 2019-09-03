@@ -13,7 +13,7 @@
         <p><label>电话：<input name="tel" type="tel"></label></p>
         <input type="hidden" name='unionCode' value='{{ openid }}'>
         <select name="section">
-            {% for division in divisions.keys() %}
+            {% for division in divisions.keys %}
                 <option value="division">{{division}}</option>
             {% endfor %}
         </select>
