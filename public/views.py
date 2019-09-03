@@ -9,6 +9,7 @@ import public.response as rspon
 from requests import post,get
 from .models import App
 from snack.dateBaseQuery import divisionForm
+import json
 
 # Create your views here.
 '''
@@ -110,5 +111,5 @@ def createScholarUser(request):
 
 def getDivisions(request):
     if request.method == 'GET':
-        return HttpResponse(divisionForm())
-    return JsonResponse({'status':'success'})
+        return HttpResponse(json.dump(divisionForm))
+    return HttpResponse('get')
