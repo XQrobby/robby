@@ -46,7 +46,7 @@ def get_menu():
             {
                 "type":"view",
                 "name":"Beao维修",
-                "url":"http://robbyzhang/admin/"
+                "url":"http://120.27.242.55/admin/"
             },
             {
                 "name":"管理员入口",
@@ -54,7 +54,7 @@ def get_menu():
                     {
                         "type":"view",
                         "name":"订单管理",
-                        "url":"http://robbyzhang/admin/"
+                        "url":"http://120.27.242.55/admin/"
                     },
                     {
                         "type":"view",
