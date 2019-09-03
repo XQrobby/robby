@@ -107,3 +107,8 @@ def enrollScholarUser(request):
 def createScholarUser(request):
     print(request.POST)
     return JsonResponse({'status':'success'})
+
+def getDivisions(request):
+    if request.method == 'POST':
+        return JsonResponse({'Divisions':getDivisions()})
+    return JsonResponse({'status':'success'})

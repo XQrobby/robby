@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script type="text/javascript">
+        if (window.XMLHttpRequest){
+            xmlhttp = new XMLHttpRequest();
+        }else{
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.open('POST','')
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -22,8 +30,5 @@
         {% endif %}
         <button name="submit">提交</button>
     </form>
-    <script type="text/javascript">
-        console.log(section)
-    </script>
 </body>
 </html>
