@@ -10,7 +10,8 @@
         }
         xmlhttp.open('GET','http://robbyzhang.cn/public/getDivisions/',true)
         xmlhttp.send()
-        console.log(xmlhttp.response)
+        console.log(xmlhttp)
+        var divisions = eval(xmlhttp.response)['divisions']
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
