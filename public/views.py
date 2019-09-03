@@ -8,6 +8,7 @@ import hashlib
 import public.response as rspon
 from requests import post,get
 from .models import App
+from snack.dateBaseQuery import divisionForm
 
 # Create your views here.
 '''
@@ -98,7 +99,9 @@ def enrollScholarUser(request):
     content = request.GET.dict()
     app = App.objects.all()[0]
     openid = rspon.get_openid(app.appid,app.secret,content['code'])
-    context = {'openid':openid}
+    divisions = divisionForm()
+    context = {'openid':openid,'divisions':divisions}
+    print(context)
     return render(request,'enrollScholarUser.html',context)
 
 def createScholarUser(request):
