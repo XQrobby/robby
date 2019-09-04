@@ -106,7 +106,11 @@ def enrollScholarUser(request):
 
 def createScholarUser(request):
     print(request.POST)
-    return JsonResponse({'status':'success'})
+    content = request.POST.dict()
+    res = query.createScholarUser(content['name'],content['tel'],content['unionCode'],query.get_division(content['section'],content['clas']))
+    print(res)
+    context = {}
+    return render(request,'createScholarUser.html',context)
 
 def getDivisions(request):
     if request.method == 'GET':

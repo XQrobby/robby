@@ -1,4 +1,5 @@
-from .models import AssessToken,App
+from .models import AssessToken,App,ScholarUser
+from snack.models import Division
 import datetime
 from requests import request
 
@@ -51,6 +52,15 @@ def use_access_token():
         access_token = query_access_token()
         return access_token.access_token 
     
+def createScholarUser(name,tel,unionCode,division):
+    newUser = ScholarUser(
+        name = name,
+        tel = tel,
+        unionCode = unionCode,
+        division = division
+    )
+    newUser.save()
+    return True
 
-
-
+def get_division(section,clas):
+    return Division.objects.get(section=section,clas=clas)

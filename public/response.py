@@ -3,6 +3,7 @@ from django.http.response import HttpResponse,JsonResponse
 from .models import App
 from requests import get
 from json import dumps
+
 def autoreply(request):
     msg = parse_message(request.body)
     reply = create_reply('',msg)
