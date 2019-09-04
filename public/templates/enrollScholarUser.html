@@ -8,9 +8,9 @@
 </head>
 <body>
     <h1>hello</h1>
-    <form action="{% url 'public:createScholarUser' %}" method="post">
-        <p><label>姓名：<input name="name" type="text"></label></p>
-        <p><label>电话：<input name="tel" type="tel"></label></p>
+    <form id="content" method="post" action="{% url 'public:enrollScholarUser' %}">
+        <p><label>姓名：<input id='name' name="name" type="text"></label></p>
+        <p><label>电话：<input id='tel' name="tel" type="tel"></label></p>
         <input type="hidden" name='unionCode' value='{{ openid }}'>
         <p>选择单位</p>
         <select id='section' name="section">
@@ -20,7 +20,7 @@
         <select name="clas" id="clas">
             <option value="---">---</option>
         </select>
-        <button name="submit">提交</button>
+        <input type="button" oncheck='checkUserInfo();'>
     </form>
     <script type="text/javascript">
         if (window.XMLHttpRequest){
@@ -35,6 +35,8 @@
         console.log(divisions)
         var section = document.getElementById('section')
         var clas = document.getElementById('clas')
+        var submitForm = document.getElementById('content')
+        //单位选择集函数
         section.onchange = function(){
             var classes = divisions[section.value]
             console.log(section.value)
@@ -45,8 +47,31 @@
                 clas.options.add(new Option(classes[j],classes[j]))
             }
         }
+        //初始化选择集
         for (var i in divisions){
             section.options.add(new Option(i,i))
+        }
+        //提交表单
+        function checkUserInfo(){
+            var name = document.getElementById('name').value,
+                tel = document.getElementById('tel').value,
+                section = document.getElementById('section').value,
+                clas = document.getElementById('clas').value
+            if (name == ''){
+                alert('姓名为空')
+                return false
+            }else if(tel == ''){
+                alert('电话为空')
+                return false
+            }else if(section == '---'){
+                alert('单位未选择')
+                return false
+            }else if(clas == '---'){
+                alter('部门未选择')
+                return false
+            }else{
+                document.getElementById('submitInfo').submit()
+            }
         }
     </script>
 </body>
