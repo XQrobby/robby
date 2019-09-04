@@ -40,8 +40,8 @@
             for (var i = 1 ; i < clas ; i++){
                 clas.removeChild(clas.options[i])
             }
-            for(var i in divisions[section.value]){
-                clas.options.add(new Option(i,i))
+            for(var j in divisions[section.value]){
+                clas.options.add(new Option(j,j))
             }
         }
         for (var i in divisions){
