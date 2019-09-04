@@ -19,9 +19,6 @@ class User(models.Model):
 class ScholarUser(User):
     division = models.ForeignKey(Division,verbose_name='单位/院系/部门',on_delete=models.DO_NOTHING,blank=True)
     activation = models.BooleanField(verbose_name='用户激活',default=False)
-    def __str__(self):
-        return " ".join((self.user.id,self.user.name,self.clas))
-
 
 class AssessToken(models.Model):
     access_token = models.TextField(verbose_name='api调用凭证',default="NaN")
