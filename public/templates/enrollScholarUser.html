@@ -12,15 +12,14 @@
         <p><label>姓名：<input name="name" type="text"></label></p>
         <p><label>电话：<input name="tel" type="tel"></label></p>
         <input type="hidden" name='unionCode' value='{{ openid }}'>
+        <p>选择单位</p>
         <select id='section' name="section">
             <option value="---">---</option>
-            {% for division in divisions.keys %}
-                <option value="{{division}}">{{division}}</option>
-            {% endfor %}
         </select>
-        {% if section %}
-            <p>部门</p>
-        {% endif %}
+        <p>选择部门</p>
+        <select name="clas" id="clas">
+            <option value="---">---</option>
+        </select>
         <button name="submit">提交</button>
     </form>
     <script type="text/javascript">
@@ -35,7 +34,13 @@
         var divisions = JSON.parse(xmlhttp.response)['divisions']
         console.log(divisions)
         var section = document.getElementById('section')
-        console.log(section)
+        var clas = document.getElementById('clas')
+        section.onchange = function(){
+            console.log(section.value)
+        }
+        for (var i in divisions){
+            section.options.add(new Option('i','i'))
+        }
     </script>
 </body>
 </html>
