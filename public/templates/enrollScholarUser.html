@@ -36,12 +36,13 @@
         var section = document.getElementById('section')
         var clas = document.getElementById('clas')
         section.onchange = function(){
+            var classes = divisions[section.value]
             console.log(section.value)
-            for (var i = 1 ; i < clas ; i++){
+            for (var i = clas.length-1 ; i > 0 ; i-- ){
                 clas.removeChild(clas.options[i])
             }
-            for(var j in divisions[section.value]){
-                clas.options.add(new Option(j,j))
+            for(var j in classes){
+                clas.options.add(new Option(classes[j],classes[j]))
             }
         }
         for (var i in divisions){
