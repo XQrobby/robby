@@ -12,7 +12,7 @@ class ScholarUserAdmin(admin.ModelAdmin):
     def buttons(self, obj):
         button_html = ''
         if obj.activation == False:
-            button_html = """<a class="changelink" href="/public/activate_unionCode=%d/">激活</a>""" % (
+            button_html = """<a class="changelink" href="/public/activate_unionCode=%s/">激活</a>""" % (
             obj.unionCode)
         return format_html(button_html)
     buttons.short_description = "操作"
