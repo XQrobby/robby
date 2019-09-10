@@ -121,4 +121,4 @@ def activate(requests,unionCode):
     user = ScholarUser.objects.get(unionCode=unionCode)
     user.activation = True
     user.save()
-    return HttpResponseRedirect(redirect_to='/adminpublic/scholaruser/')
+    return HttpResponseRedirect(redirect_to='/admin/public/scholaruser/')
