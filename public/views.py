@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http.response import HttpResponse,JsonResponse
+from django.http.response import HttpResponse,JsonResponse,HttpResponseRedirect
 from wechatpy import parse_message,create_reply
 from wechatpy.exceptions import InvalidSignatureException
 from wechatpy.utils import check_signature
@@ -7,7 +7,7 @@ import public.dateBaseQuery as query
 import hashlib
 import public.response as rspon
 from requests import post,get
-from .models import App
+from .models import App,ScholarUser
 from snack.dateBaseQuery import divisionForm
 
 # Create your views here.
@@ -116,3 +116,9 @@ def getDivisions(request):
     if request.method == 'GET':
         return JsonResponse({'divisions':divisionForm()})
     return JsonResponse({'status':'success'})
+
+def activate(requests,unionCode):
+    user = ScholarUser.objects.get(unionCode=unionCode)
+    user.activation = True
+    user.save()
+    return HttpResponseRedirect(redirect_to='/adminpublic/scholaruser/')
