@@ -7,7 +7,7 @@ def user_activate(modeladmin,request,queryset):
 user_activate.short_description = '校方审核员账号激活'
 
 class ScholarUserAdmin(admin.ModelAdmin):
-    list_display = ['name','tel','division','activation']
+    list_display = ['name','tel','division','activation','buttons']
 
     def buttons(self, obj):
         button_html = ''
