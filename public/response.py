@@ -74,3 +74,10 @@ def get_openid(appid,secret,code):
     res = res.json()
     print(res)
     return res.get('openid')
+
+def getting_industry_info():
+    response = {
+        "industry_id1":"3",
+        "industry_id2":"41"
+    }
+    return dumps(response,ensure_ascii=False).encode("utf-8")
