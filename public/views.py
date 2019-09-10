@@ -125,9 +125,9 @@ def activate(requests,unionCode):
 
 def setting_industry(request):
     if request.method == 'GET':
-        url = 'https://api.weixin.qq.com/cgi-bin/template/get_industry?access_token=%s'%(access_token)
+        url = 'https://api.weixin.qq.com/cgi-bin/template/get_industry?access_token=%s'%(query.use_access_token())
         info = rspon.getting_industry_info()
         res = get(url,data=info)
-        print(res)
+        print(res.json())
         return JsonResponse({'status':'success'})
     return JsonResponse({"status":'error'})
