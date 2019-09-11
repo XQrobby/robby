@@ -1,7 +1,7 @@
 from wechatpy import parse_message,create_reply
 from django.http.response import HttpResponse,JsonResponse
 from .models import App
-from requests import get
+from requests import get,post
 from json import dumps
 from .dateBaseQuery import use_access_token
 
