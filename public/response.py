@@ -3,7 +3,7 @@ from django.http.response import HttpResponse,JsonResponse
 from .models import App
 from requests import get
 from json import dumps
-from dateBaseQuery import use_access_token
+from .dateBaseQuery import use_access_token
 
 def autoreply(request):
     msg = parse_message(request.body)
@@ -80,10 +80,10 @@ def give_model_info(content):
 
 def send_enroll_info(content):
     #返回用户注册模板信息
-        response = {
+    response = {
         "touser":content['openid'],
         "template_id":'fmuMocp62Fpufwjqgt6p33z54QlD1N2JFtdN_reUAEg',
-        "topcolor":"#FF0000"
+        "topcolor":"#FF0000",
         "data":{
             "first":{
                 "value":content['first'],
@@ -101,7 +101,6 @@ def send_enroll_info(content):
                 "value":content['remark'],
                 "color":"#173177"
             }
-        }
         }
     }
     return dumps(response)
