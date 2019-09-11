@@ -140,10 +140,10 @@ def activate(requests,unionCode):
 
     #发送模板消息
     mes = {
-        'first':'注册信息提交成功',
+        'first':'审核通过',
         'keyword1':user.name,
         'keyword2':str(datetime.datetime.now()),
-        'remark':'注册正在审核中',
+        'remark':'恭喜您，已经成为校方审核员',
         'openid':user.unionCode
     }
     model_info = rspon.send_enroll_info(mes)
