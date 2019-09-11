@@ -9,6 +9,7 @@ import public.response as rspon
 from requests import post,get
 from .models import App,ScholarUser
 from snack.dateBaseQuery import divisionForm
+import datetime
 
 # Create your views here.
 '''
@@ -107,10 +108,25 @@ def enrollScholarUser(request):
 def createScholarUser(request):
     print(request.POST)
     content = request.POST.dict()
-    res = query.createScholarUser(content['name'],content['tel'],content['unionCode'],query.get_division(content['section'],content['clas']))
-    print(res)
-    context = {}
-    return render(request,'createScholarUser.html',context)
+    try:
+        ScholarUser.objects.get(unionCode=content['unionCode'])
+        print('已注册')
+        return JsonResponse({"status":'success'})
+    except:
+        res = query.createScholarUser(content['name'],content['tel'],content['unionCode'],query.get_division(content['section'],content['clas']))
+        #发送模板消息
+        mes = {
+            'first':'注册信息提交成功',
+            'keyword1':res.name,
+            'keyword2':str(datetime.datetime.now()),
+            'remark':'注册正在审核中',
+            'openid':res.unionCode
+        }
+        model_info = rspon.send_enroll_info(mes)
+        rspon.post_model_info(model_info)
+
+        context = {}
+        return render(request,'createScholarUser.html',context)
 
 def getDivisions(request):
     if request.method == 'GET':
@@ -121,13 +137,17 @@ def activate(requests,unionCode):
     user = ScholarUser.objects.get(unionCode=unionCode)
     user.activation = True
     user.save()
-    return HttpResponseRedirect(redirect_to='/admin/public/scholaruser/')
 
-def setting_industry(request):
-    if request.method == 'GET':
-        url = 'https://api.weixin.qq.com/cgi-bin/template/get_industry?access_token=%s'%(query.use_access_token())
-        info = rspon.getting_industry_info()
-        res = get(url,data=info)
-        print(res.json())
-        return JsonResponse({'status':'success'})
-    return JsonResponse({"status":'error'})
+    #发送模板消息
+    mes = {
+        'first':'注册信息提交成功',
+        'keyword1':user.name,
+        'keyword2':str(datetime.datetime.now()),
+        'remark':'注册正在审核中',
+        'openid':user.unionCode
+    }
+    model_info = rspon.send_enroll_info(mes)
+    rspon.post_model_info(model_info)
+    return HttpResponseRedirect(redirect_to='/admin/public/scholaruser/')
+    
+

@@ -60,7 +60,7 @@ def createScholarUser(name,tel,unionCode,division):
         division = division
     )
     newUser.save()
-    return True
+    return newUser
 
 def get_division(section,clas):
     return Division.objects.get(section=section,clas=clas)

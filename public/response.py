@@ -3,6 +3,7 @@ from django.http.response import HttpResponse,JsonResponse
 from .models import App
 from requests import get
 from json import dumps
+from dateBaseQuery import use_access_token
 
 def autoreply(request):
     msg = parse_message(request.body)
@@ -21,24 +22,6 @@ def autoreply(request):
         reply = create_reply('这是条其他类型消息', msg)
     response = HttpResponse(reply.render(), content_type="application/xml")
     return response
-
-def give_model_info(content):
-    response = {
-        "touser":content['openid'],
-        "template_id":content['template_id'],
-        "topcolor":"#FF0000",
-        "data":{
-            "name":{
-                "value":content['name'],
-                "color":"#173177"
-            },
-            "time":{
-                "value":content['time'],
-                "color":"#173177"
-            }
-        }
-    }
-    return dumps(response)
 
 def get_menu():
     app = App.objects.all()[0]
@@ -75,9 +58,54 @@ def get_openid(appid,secret,code):
     print(res)
     return res.get('openid')
 
-def getting_industry_info():
+def give_model_info(content):
+    '''
     response = {
-        "industry_id1":"3",
-        "industry_id2":"41"
+        "touser":content['openid'],
+        "template_id":content['template_id'],
+        "topcolor":"#FF0000",
+        "data":{
+            "name":{
+                "value":content['name'],
+                "color":"#173177"
+            },
+            "time":{
+                "value":content['time'],
+                "color":"#173177"
+            }
+        }
     }
-    return dumps(response,ensure_ascii=False).encode("utf-8")
+    '''
+    return dumps(response)
+
+def send_enroll_info(content):
+    #返回用户注册模板信息
+        response = {
+        "touser":content['openid'],
+        "template_id":'fmuMocp62Fpufwjqgt6p33z54QlD1N2JFtdN_reUAEg',
+        "topcolor":"#FF0000"
+        "data":{
+            "first":{
+                "value":content['first'],
+                "color":"#173177"
+            },
+            "keyword1":{
+                "value":content['keyword1'],
+                "color":"#173177"
+            },
+            "keyword2":{
+                "value":content['keyword2'],
+                "color":"#173177"
+            },
+            "remark":{
+                "value":content['remark'],
+                "color":"#173177"
+            }
+        }
+    }
+    return dumps(response)
+
+def post_model_info(model_info):
+    url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s'%(use_access_token())
+    res = post(url,data=model_info)
+    print(res.json())
