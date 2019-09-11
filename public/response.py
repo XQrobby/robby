@@ -102,6 +102,7 @@ def send_enroll_info(content):
                 "color":"#173177"
             }
         }
+        }
     }
     return dumps(response)
 
