@@ -62,6 +62,7 @@ def taskList(requests):
 def order(request):
     if request.method == 'POST':
         content = request.POST.dict()
+        print(content)
         if query.checkLogin(content['unionCode'],content['code']):
             return JsonResponse({'status':True,'order':query.order(content['orderID'])})
     return JsonResponse({'status':False})
