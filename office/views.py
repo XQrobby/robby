@@ -27,7 +27,8 @@ def login(request):
                 'address':vipUser.address,
                 'agent':vipUser.level.vipUserType.agent,
                 'typ':vipUser.level.vipUserType.typ,
-                'level':vipUser.level.level
+                'level':vipUser.level.level,
+                'tel':vipUser.tel
             }
             return JsonResponse({
                 'status':True,
