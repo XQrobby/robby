@@ -44,10 +44,10 @@ def enroll(requests):
     if requests.method == 'POST':
         content = requests.POST.dict()
         print(content)
-        query.enroll(content)
-        return JsonResponse({'status':True})
+        action = query.enroll(content)
+        return JsonResponse({'status':True,'action':action})
     else:
-        return JsonResponse({'status':False})
+        return JsonResponse({'status':False,'action':action})
 
 def taskList(requests):
     if requests.method == 'POST':

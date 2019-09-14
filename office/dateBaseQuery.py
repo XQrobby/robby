@@ -33,20 +33,29 @@ def createJobNumber():
     return VipUser.objects.count()+1
 
 def enroll(content):
-    agent,typ = content['vipUserType'].split('-')
-    typ = VipUserType.objects.get(agent=agent,typ=typ)
-    level = typ.level.get(level='初级')
-    jobNumber = createJobNumber()
-    #生成用户模型
-    vipUser = VipUser(
-        level=level,
-        name=content['name'],
-        tel=content['tel'],
-        address=content['addr'],
-        unionCode=content['unionCode'],
-        jobNumber=jobnumber
-        )
-    vipUser.save()
+    try:
+        vipUser = VipUser.objects.get(unionCode=content['unionCode'])
+        vipUser.name = content['name']
+        vipUser.tel = content['tel']
+        vipUser.address = content['addr']
+        vipUser.save()
+        return '已修改'
+    except:
+        agent,typ = content['vipUserType'].split('-')
+        typ = VipUserType.objects.get(agent=agent,typ=typ)
+        level = typ.level.get(level='初级')
+        jobNumber = createJobNumber()
+        #生成用户模型
+        vipUser = VipUser(
+            level=level,
+            name=content['name'],
+            tel=content['tel'],
+            address=content['addr'],
+            unionCode=content['unionCode'],
+            jobNumber=jobnumber
+            )
+        vipUser.save()
+        return '已注册'
 #检测登录状态
 def checkLogin(unionCode,code):
     return VipUser.objects.get(unionCode=unionCode).loginCode == code
