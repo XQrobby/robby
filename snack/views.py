@@ -11,8 +11,8 @@ def login(request):
         #获取unionCode
         api = 'https://api.weixin.qq.com/sns/jscode2session'
         payload = {
-            'appid':'wx10a71b42870fba91',
-            'secret':'f725c0da9b3b41f8a8b6c98c57e32e7b',
+            'appid':'wxb0b3a42da4af0d73',
+            'secret':'5383a21d1b21dcb4f6bf1309a2c2b429',
             'js_code':request.POST.get('code'),
             'grant_type':'authorization_code'
             }
