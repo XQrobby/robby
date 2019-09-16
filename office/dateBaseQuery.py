@@ -1,6 +1,7 @@
 from .models import VipUser,VipUserType,Level
 from snack.models import Order
 from django.utils import timezone
+from robby.settings import BASE_HOST
 #订单日志填入
 def wOrderLog(order,userType,unionCode,operation):
     orderLog = order.orderLog
@@ -8,6 +9,17 @@ def wOrderLog(order,userType,unionCode,operation):
     orderLog += log
     order.orderLog = orderLog
     order.save()
+
+#返回order的图片
+def get_order_images(order):
+    images_url = []
+    images = order.img.all()
+    if len(images) == 0:
+        images_url = [BASE_HOST+'media/empty.jpg']
+    else:
+        images_url = [BASE_HOST+'media/'+str(image.image) for image in images]
+    print(images_url)
+    return images_url
 
 #订单服务日志填入
 def wServiceLog(order,userType,unionCode,operation):
@@ -70,6 +82,7 @@ def orderInfo(order):
         'orderType':order.orderType,
         'orderID':order.orderID,
         'cancel':order.cancel,
+        'image':get_order_images(order)[0]
         }
 
 def ordersInfo(unionCode,count):
@@ -106,6 +119,7 @@ def order(orderID):
             'orderStatus':order.orderStatus,
             'serviceStatus':order.serviceStatus,
             'cancel':order.cancel,
+            'images':get_order_images(order)
         }
 
 #获取订单服务状态

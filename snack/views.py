@@ -69,6 +69,8 @@ def orderList(request):
     if request.method == 'POST':
         unionCode = request.POST.get('unionCode')
         count = request.POST.get('showCount')
+        content = request.POST.dict()
+        print(content)
         if query.checkLogin(unionCode,request.POST.get('code')):
             return JsonResponse({'status':True,'orders':query.ordersInfo(unionCode,count)})
     return JsonResponse({'status':False})

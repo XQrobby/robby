@@ -3,7 +3,7 @@ from office.models import VipUser
 from django.core.files.base import ContentFile
 from django.utils import timezone
 from office.dateBaseQuery import wOrderLog,wServiceLog
-
+from robby.settings import BASE_HOST
 def queryClient(unicode):
 #查询User用户。若用户存在，返回对象，否则返回false
     try:
@@ -44,6 +44,7 @@ def orderInfo(order):
         'orderType':order.orderType,
         'orderID':order.orderID,
         'cancel':order.cancel,
+        'image':get_order_images(order)[0]
         }
 
 #    更改该位置
@@ -53,11 +54,19 @@ def ordersInfo(unionCode,count):
     orders_ = client.order.all().order_by('-id')
     length = len(orders_)
     count = int(count)
+    orders = []
+    '''
     if length>count and (length-count)%bucket!=0:
         orders = orders_[count:count+bucket]
     else:
         orders = orders_[count:]
+    '''
+    try:
+        orders = orders_[count:count+bucket]
+    except:
+        orders = orders_[count:]
     #order add 功能
+    print(orders,orders_)
     return [orderInfo(order) for order in orders]
 
 def changeClientInfo(content):
@@ -118,15 +127,23 @@ def divisionForm():
 
 def serviceTypeForm():
     return [ serviceType.typ for serviceType in ServiceType.objects.all() ]
-
+#后去order图片
+def get_order_images(order):
+    images_url = []
+    images = order.img.all()
+    if len(images) == 0:
+        images_url = [BASE_HOST+'media/empty.jpg']
+    else:
+        images_url = [BASE_HOST+'media/'+str(image.image) for image in images]
+    print(images_url)
+    return images_url
 def order(orderID):
     order=Order.objects.get(orderID=orderID)
     if order:
-        return {
+        order_info = {
             'orderID':order.orderID,
             'client':order.client.name,
             'orderType':order.orderType,
-            'technician':order.technician.name,
             'serviceType':order.serviceType.typ,
             'addr':order.addr,
             'model':order.model,
@@ -137,7 +154,11 @@ def order(orderID):
             'serviceStatus':order.serviceStatus,
             'cancel':order.cancel,
             'costList':order.costList,
+            'images':get_order_images(order),
         }
+        if order.orderStatus != '审核中' and order.orderStatus != '已撤销':
+            order_info['technician'] = order.technician.name
+        return order_info
 
 def cancel(orderID,unionCode):
     try:
