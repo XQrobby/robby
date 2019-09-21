@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http.response import JsonResponse,HttpResponseRedirect
 from django.http.request import HttpRequest
 from requests import get
-from .models import Order
+from .models import Order,Client
 from office.models import VipUser
 import snack.dateBaseQuery as query
 # Create your views here.
@@ -17,6 +17,7 @@ def login(request):
             'grant_type':'authorization_code'
             }
         res = get(api,params=payload,verify=False,timeout=3).json()
+        print(res)
             #检查User是否存在
         try:
             unionCode = res['openid']
@@ -28,26 +29,41 @@ def login(request):
             client.loginCode = request.POST.get('code')
             client.save()
             status = True
+            return JsonResponse({
+                'status':status,
+                'unionCode':unionCode,
+                'clientInfoP':query.clientDetail(client),
+                'sectionsForm':query.divisionForm(),
+                'serviceTypesForm':query.serviceTypeForm()
+            })
         else:
             #用户初始化
-            client = query.clientInit(unionCode)
-            client.loginCode = request.POST.get('code')
+            #client = query.clientInit(unionCode)
+            #client.loginCode = request.POST.get('code')
             status = 'none'
-        return JsonResponse({
-            'status':status,
-            'clientInfoP':query.clientDetail(client),
-            'sectionsForm':query.divisionForm(),
-            'serviceTypesForm':query.serviceTypeForm()
-        })
+            return JsonResponse({
+                'status':status,
+                'unionCode':unionCode,
+                'sectionsForm':query.divisionForm(),
+                'serviceTypesForm':query.serviceTypeForm()
+            })
     return JsonResponse({'status':False})
 
 def changeClientInfo(request):
     if request.method == 'POST':
         content = request.POST.dict()
-        if query.checkLogin(content['unionCode'],content['code']):
+        try:
+            if query.checkLogin(content['unionCode'],content['code']):
+                query.changeClientInfo(content)
+                client = Client.objects.get(unionCode=content['unionCode'])
+                return JsonResponse({'status':True,'clientInfoP':query.clientDetail(client)})
+            return JsonResponse({'status':False,'detail':'no copyright'})
+        except:
+            client = query.clientInit(content['unionCode'])
+            client.loginCode = content['code']
+            client.save()
             query.changeClientInfo(content)
-            return JsonResponse({'status':True})
-        return JsonResponse({'status':False,'detail':'no copyright'})
+            return JsonResponse({'status':True,'clientInfoP':query.clientDetail(client)})
     return JsonResponse({'status':False})
 
 def newOrder(request):

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ServiceType,Order,Division,Image
+from .models import ServiceType,Order,Division,Image,Client
 from django.utils.html import format_html
 # Register your models here.
 
@@ -10,11 +10,13 @@ make_orderId.short_description = '修改orderID'
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['orderID','createTime','typ','name','tel','technician','is_assess','orderStatus','serviceStatus','Photo','buttons']
     ordering = ['-createTime']
+    '''
     fieldsets = (
         ("订单信息", {'fields': ['orderID', 'client','addr', 'is_assess','orderType','technician',]}),
         ("订单状态", {'fields': ['orderStatus','serviceStatus']}),
         ("订单内容", {'fields':[ ]}),
     )
+    '''
     actions = [make_orderId]
 
     def typ(self,obj):
@@ -46,7 +48,7 @@ class OrderAdmin(admin.ModelAdmin):
         return format_html(button_html)
     Photo.short_description = "图片"
 
-
+admin.site.register(Client)
 admin.site.register(Order,OrderAdmin)
 admin.site.register(ServiceType)
 admin.site.register(Division)

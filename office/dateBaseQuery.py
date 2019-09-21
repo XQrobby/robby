@@ -64,7 +64,7 @@ def enroll(content):
             tel=content['tel'],
             address=content['addr'],
             unionCode=content['unionCode'],
-            jobNumber=jobnumber
+            jobNumber=jobNumber
             )
         vipUser.save()
         return '已注册'
