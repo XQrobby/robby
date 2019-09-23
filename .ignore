@@ -1,4 +1,3 @@
 settings
 __pycache__/
 .vs/
-db.sqlite3
