@@ -124,11 +124,12 @@ CORS_ORIGIN_ALLOW_ALL = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-STATIC_ROOT = 'static/'
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
 #STATIC_URL = os.path.join(BASE_DIR,'static/')
 STATIC_PATH = os.path.join(BASE_DIR,'static/')
 MEDIA_ROOT = 'media/'
 MEDIA_URL = os.path.join(BASE_DIR,'media/')
 
+#用于返回图片地址
 BASE_HOST = 'http://127.0.0.1:8000/'
