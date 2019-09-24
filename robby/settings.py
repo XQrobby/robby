@@ -133,3 +133,5 @@ MEDIA_URL = os.path.join(BASE_DIR,'media/')
 
 #用于返回图片地址
 BASE_HOST = 'http://127.0.0.1:8000/'
+
+STATUS_TXT_PATH = 'status/'

@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 from django.views.static import serve#导入serve方法
 from robby.settings import MEDIA_ROOT,STATIC_PATH#导入项目设置 
 from django.conf import settings
+from robby.settings import STATUS_TXT_PATH
 
 urlpatterns = [
     url(r'^admin/',admin.site.urls),
@@ -28,4 +29,5 @@ urlpatterns = [
     path('office/',include('office.urls',namespace='office')),
     url(r'media/(?P<path>.*)',serve,{"document_root":MEDIA_ROOT}),
     url(r'static/(?P<path>.*)',serve,{"document_root":STATIC_PATH}),
+    url(r'(?P<path>.*)',serve,{"document_root":STATUS_TXT_PATH}),
 ] + static(settings.STATIC_URL,document_root = settings.STATIC_ROOT)
