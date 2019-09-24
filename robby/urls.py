@@ -27,5 +27,5 @@ urlpatterns = [
     path('public/',include('public.urls',namespace='public')),
     path('office/',include('office.urls',namespace='office')),
     url(r'media/(?P<path>.*)',serve,{"document_root":MEDIA_ROOT}),
-    url(r'(?P<path>.*)',serve,{"document_root":STATIC_PATH}),
+    url(r'static/(?P<path>.*)',serve,{"document_root":STATIC_PATH}),
 ] + static(settings.STATIC_URL,document_root = settings.STATIC_ROOT)
