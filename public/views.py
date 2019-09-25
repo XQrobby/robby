@@ -106,7 +106,7 @@ def enrollScholarUser(request):
         print(context)
         return render(request,'enrollScholarUser.html',context)
     except:
-        return JsonResponse({status:'fail'})
+        return JsonResponse({'status':'fail'})
 
 def createScholarUser(request):
     print(request.POST)
