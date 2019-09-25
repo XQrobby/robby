@@ -10,8 +10,8 @@ urlpatterns = [
     path('send_model_info/',views.send_model_info,name='send_model_info'),
     path('setting_menu/',views.setting_menu,name='setting_menu'),
     path('delete_menu/',views.delete_menu,name="delete_menu"),
-    path('enrollScholarUser/',views.enrollScholarUser,name='enrollScholarUser'),
-    path('createScholarUser/',views.createScholarUser,name='createScholarUser'),
+    path('enrollScholarUser',views.enrollScholarUser,name='enrollScholarUser'),
+    path('createScholarUser',views.createScholarUser,name='createScholarUser'),
     path('getDivisions/',views.getDivisions,name='getDivisions'),
     path('activate_unionCode=<str:unionCode>/',views.activate,name='activate'),
 ]
