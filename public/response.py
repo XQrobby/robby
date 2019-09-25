@@ -30,7 +30,7 @@ def get_menu():
             {
                 "type":"view",
                 "name":"Beao维修",
-                "url":"http://120.27.242.55/admin/"
+                "url":"https://120.27.242.55/admin/"
             },
             {
                 "name":"管理员入口",
@@ -38,12 +38,12 @@ def get_menu():
                     {
                         "type":"view",
                         "name":"订单管理",
-                        "url":"http://120.27.242.55/admin/"
+                        "url":"https://120.27.242.55/admin/"
                     },
                     {
                         "type":"view",
                         "name":"成为校方审核员",
-                        "url":"https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=http://www.robbyzhang.cn/public/enrollScholarUser/&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect"%(app.appid)
+                        "url":"https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=https://www.robbyzhang.cn/public/enrollScholarUser/&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect"%(app.appid)
                     }
                 ]
             }

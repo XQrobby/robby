@@ -1,3 +1,4 @@
 robby/__pycache__/
 .vs/
 env_11/
+db.sqlite3
