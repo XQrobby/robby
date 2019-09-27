@@ -139,7 +139,7 @@ def affirm(request):
 
 def photo(request,order_id):
     order = Order.objects.get(id=order_id)
-    urls = ['/media/'+img.image.url for img in order.img.all()]
+    urls = ['/media/'+str(img.image) for img in order.img.all()]
     context = {'urls':urls}
     return render(request,'photos.html',context)
 
