@@ -128,8 +128,13 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
 #STATIC_URL = os.path.join(BASE_DIR,'static/')
 STATIC_PATH = os.path.join(BASE_DIR,'static/')
-MEDIA_ROOT = 'media/'
-MEDIA_URL = os.path.join(BASE_DIR,'media/')
+MEDIA_URL = '/media/'  # 设置媒体文件的相对路径
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # 设置媒体文件的绝对路径
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'media'),
+]
 
 #用于返回图片地址
 BASE_HOST = 'http://127.0.0.1:8000/'
