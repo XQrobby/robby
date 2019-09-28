@@ -192,6 +192,7 @@ def setTech(content):
 def affirmFinish(content):
     order = Order.objects.get(id=content['order_id'])
     order.orderStatus = '已完修'
+    order.costList = content['costList']
     order.save()
     wOrderLog(order,'调度员',content['user_id'],'订单完修')
 

@@ -135,6 +135,7 @@ def affirm(request):
     if request.method == 'POST':
         content = request.POST.dict()
         query.affirmFinish(content)
+        print(content)
     return HttpResponseRedirect(redirect_to='/admin/snack/order/')
 
 def photo(request,order_id):

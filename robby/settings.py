@@ -137,7 +137,7 @@ STATICFILES_DIRS = [
 ]
 
 #用于返回图片地址
-#BASE_HOST = 'http://127.0.0.1:8000/'
+BASE_HOST = 'http://127.0.0.1:8000/'
 #BASE_HOST = 'https://www.robbyzhang.cn/'
-BASE_HOST = 'http://www.robbyzhang.cn/'
+#BASE_HOST = 'http://www.robbyzhang.cn/'
 STATUS_TXT_PATH = 'status/'

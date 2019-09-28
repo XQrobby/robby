@@ -6,8 +6,42 @@
 <div>图片</div>
 {% endblock %}
 {% block content %}
-    <h1>图片</h1>
-    {% for url in urls %}
-    <img src="{{url}}">
-    {% endfor %}
+<h1>图片</h1>
+<div id="outdoor">
+    <div class="col">
+        {% for url in urls %}
+        <div class="pic">
+            <a href="{{url}}">
+                <img src="{{url}}">
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style type="text/css">
+    #outdoor{
+        width: 1260px;
+        margin: 0 auto;
+    }
+    .col{
+        -webkit-column-count: 3;
+        -webkit-column-gap: 10px;
+        -webkit-column-fill: auto;
+        -moz-column-count: 3;
+        -moz-column-gap: 10px;
+        -moz-column-fillL:auto;
+        column-count: 3;
+        column-gap: 15px;
+        column-fill: auto;
+    }
+    .pic{
+        box-sizing: border-box;
+        width: 300px;
+        background: #fff;
+        padding: 20px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, .5);
+        margin-bottom: 20px;
+    }
+</style>
 {% endblock %}

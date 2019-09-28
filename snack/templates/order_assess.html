@@ -6,12 +6,39 @@
 {% block branding %}
 {% endblock %}
 {% block content %}
-<form action="{% url 'snack:choiceTech' %}" method="POST">
-    {% for tech in techs %}
-        {{ tech.name }} <input type="radio" name="tech_id" value="{{tech.id}}">
-    {% endfor %}
-    <input type="hidden" name="order_id" value="{{order_id}}">
-    <input type="hidden" name="user_id" value="{{user.id}}">
-    <input type="submit" name="通过审核">
-</form>
+<div id="outdoor">
+    <form id='sub' action="{% url 'snack:choiceTech' %}" method="POST">
+            <h2>请选择技术员</h2>
+                {% for tech in techs %}
+            <div class="tech_choice">
+                {{ tech.name }} <input type="radio" name="tech_id" value="{{tech.id}}">
+            </div>
+            {% endfor %}
+            <input type="hidden" name="order_id" value="{{order_id}}">
+            <input type="hidden" name="user_id" value="{{user.id}}">
+            <input id='submit' type="submit" name="通过审核">
+    </form>
+</div>
+
+<style type="text/css">
+    #submit{
+        margin-top: 25px;
+        left: 4%;
+        position: absolute;
+    }
+    #outdoor{
+        position: absolute;
+        display: block;
+        width: 100%;
+    }
+    #sub{
+        position: relative;
+        left: 5%;
+        top: 40px;
+    }
+    .tech_choice{
+        padding-top: 25px;
+        font-size: 1.5em;
+    }
+</style>
 {% endblock %}
