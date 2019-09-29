@@ -20,6 +20,10 @@ class ScholarUser(User):
     division = models.ForeignKey(Division,verbose_name='单位/院系/部门',on_delete=models.DO_NOTHING,blank=True)
     activation = models.BooleanField(verbose_name='用户激活',default=False)
 
+    class Meta:
+        verbose_name = '校方审核员'
+        verbose_name_plural = '校方审核员'
+
 class AssessToken(models.Model):
     access_token = models.TextField(verbose_name='api调用凭证',default="NaN")
     save_time = models.DateTimeField(verbose_name='保存时间',auto_now=True)

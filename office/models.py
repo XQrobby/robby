@@ -25,6 +25,10 @@ class VipUserType(models.Model):
     def __str__(self):
         return "-".join((self.agent,self.typ))
 
+    class Meta:
+        verbose_name = '员工分组'
+        verbose_name_plural = '员工分组'
+
 
 class Level(models.Model):
     LEVEL_CHOICES = (
@@ -41,6 +45,9 @@ class Level(models.Model):
     def __str__(self):
         return "-".join((self.vipUserType.agent,self.vipUserType.typ,self.level,str(self.rate)))
 
+    class Meta:
+        verbose_name = '员工等级'
+        verbose_name_plural = '员工等级'
 class VipUser(User):
     HIRE_STATUS_CHOICES = (
         ('审核中','审核中'),
@@ -57,3 +64,7 @@ class VipUser(User):
 
     def __str__(self):
         return "-".join((self.jobNumber,self.name))
+
+    class Meta:
+        verbose_name = '工作人员'
+        verbose_name_plural = '工作人员'

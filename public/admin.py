@@ -19,4 +19,3 @@ class ScholarUserAdmin(admin.ModelAdmin):
     buttons.short_description = "操作"
 
 admin.site.register(ScholarUser,ScholarUserAdmin)
-admin.site.register(App)

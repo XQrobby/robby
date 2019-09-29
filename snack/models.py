@@ -24,6 +24,10 @@ class Client(User):
     def __str__(self):
         return '-'.join((self.name,self.tel[-4:]))
 
+    class Meta:
+        verbose_name = '客户'
+        verbose_name_plural = '客户'
+
 #学校机构
 class Division(models.Model):
     section = models.CharField(verbose_name='单位名称',max_length=10,default='NaN')
@@ -31,6 +35,10 @@ class Division(models.Model):
 
     def __str__(self):
         return '-'.join((self.section,self.clas))
+
+    class Meta:
+        verbose_name = '学校机构'
+        verbose_name_plural = '学校机构'
 '''
 #scholarUser用户属性
 class ScholarUser(User):
@@ -45,6 +53,10 @@ class ServiceType(models.Model):
 
     def __str__(self):
         return self.typ
+
+    class Meta:
+        verbose_name = '服务类型'
+        verbose_name_plural = '服务类型'
 
 #订单属性
 class Order(models.Model):
@@ -106,6 +118,10 @@ class Order(models.Model):
     
     def __str__(self):
         return " ".join((self.orderID,self.serviceType.typ,self.client.name))
+
+    class Meta:
+        verbose_name = '订单'
+        verbose_name_plural = '订单'
 
 def get_photo_path(isinstance,filename):
     productionName = isinstance.orderID
