@@ -59,7 +59,7 @@ class Order(models.Model):
     #订单状态/服务状态 未完成
     ORDER_STATUS_CHOICES = (
         ('审核中','审核中'),
-        ('待维修','待维修'),
+        ('待维修','等待维修'),
         ('已完修','已完修'),
         ('已验收','已验收'),
         ('已撤销','已撤销'),
@@ -90,7 +90,8 @@ class Order(models.Model):
     model = models.CharField(verbose_name='物品型号',max_length=20)
     faultDescription = models.TextField(verbose_name='故障描述',default='NaN')
     faultContent = models.TextField(verbose_name='故障内容',default='NaN')
-    costList = models.TextField(verbose_name='维修明细',default='NaN')
+    costList = models.TextField(verbose_name='维修明细',blank=True)
+    add_up = models.CharField(verbose_name='合计',max_length=10,default='0')
     #定义选项
     evaluation = models.CharField(verbose_name='订单评价',blank=True,max_length=200)
     level = models.CharField(verbose_name='星级',max_length=2,choices=ORDER_LEVEL_CHOICES,default='无')

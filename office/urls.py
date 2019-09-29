@@ -7,5 +7,7 @@ urlpatterns = [
     path('enroll/',views.enroll),
     path('taskList/',views.taskList),
     path('order/',views.order),
-    path('repair/',views.repair)
+    path('repair/',views.repair),
+    path('finshRepair/',views.finshRepair),
+    path('complete/',views.complete),
 ]

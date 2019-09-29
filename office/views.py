@@ -74,3 +74,21 @@ def repair(request):
             serviceStatus = query.repair(content['unionCode'],content['orderID'])
             return JsonResponse({'status':True,'serviceStatus':serviceStatus})
     return JsonResponse({'status':False})
+
+def finshRepair(request):
+    if request.method == 'POST':
+        content = request.POST.dict()
+        print(content)
+        costList = content['costList'].split(',')
+        prices = content['prices'].split(',')
+        if query.checkLogin(content['unionCode'],content['code']):
+            res = query.finsh_repair(content['unionCode'],content['orderID'],costList,prices,content['faultContent'])
+            return JsonResponse({'status':True,'service_status':res})
+    return JsonResponse({'status':False})
+
+def complete(request):
+    if request.method == 'POST':
+        content = request.POST.dict()
+        if query.checkLogin(content['unionCode'],content['code']):
+            return JsonResponse({'status':True,'costList':query.get_cost_list(content['orderID']),'faultContent':query.get_faultContent(content['orderID'])})
+    return JsonResponse({'status':False})

@@ -139,3 +139,55 @@ def repair(unionCode,orderID):
     order.save()
     wServiceLog(order,'维修员',unionCode,operation)
     return order.serviceStatus
+
+#生成费用明细
+def create_cost_list(cost_list,prices):
+    costList = ''
+    for i in range(len(cost_list)):
+        costList += cost_list[i]+'——'+prices[i]+'\n'
+    return costList
+
+#解析费用明细
+def get_cost_list(orderID):
+    order = Order.objects.get(orderID=orderID)
+    costList = order.costList
+    cost_list = []
+    prices = []
+    cols = costList.split('\n')
+    try:
+        for col in cols:  
+            col_ = col.split('——')
+            print(col_)
+            if col_[0] == '':
+                break
+            cost_list.append(col_[0])
+            prices.append(col_[1])
+        if cost_list == []:
+            cost_list.append('')
+            prices.append('')
+        return {'cost_list':cost_list,'prices':prices}
+    except:
+        return {'cost_list':cost_list,'prices':prices}
+
+def figure_out_add_up(prices):
+    res = 0
+    for price in prices:
+        res += float(price)
+    return str(res)
+def finsh_repair(unionCode,orderID,costList,prices,faultContent):
+    order = Order.objects.get(orderID=orderID)
+    costList_ = create_cost_list(costList,prices)
+    add_up = figure_out_add_up(prices)
+    serviceStatus,operation = getOrderServiceStatus(order.serviceStatus)
+    order.serviceStatus = serviceStatus
+    order.add_up = add_up
+    order.faultContent = faultContent
+    order.costList = costList_
+
+    order.save()
+    wServiceLog(order,'维修员',unionCode,operation)
+    return order.serviceStatus
+
+def get_faultContent(orderID):
+    order = Order.objects.get(orderID=orderID)
+    return order.faultContent

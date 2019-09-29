@@ -182,7 +182,7 @@ def setTech(content):
     order = Order.objects.get(id=content['order_id'])
     tech = VipUser.objects.get(id=content['tech_id'])
     order.technician = tech
-    order.orderStatus = '等待维修'
+    order.orderStatus = '待维修'
     order.serviceStatus = '待维修'
     order.is_assess = True
     order.save()
@@ -192,7 +192,7 @@ def setTech(content):
 def affirmFinish(content):
     order = Order.objects.get(id=content['order_id'])
     order.orderStatus = '已完修'
-    order.costList = content['costList']
+
     order.save()
     wOrderLog(order,'调度员',content['user_id'],'订单完修')
 

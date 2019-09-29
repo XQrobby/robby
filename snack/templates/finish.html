@@ -9,10 +9,6 @@
 <form action="{% url 'snack:affirm' %}" method="POST">
     <input type="hidden" name="order_id" value="{{order_id}}">
     <input type="hidden" name="user_id" value="{{user.id}}">
-    <div id="costList">
-        <h2>费用明细</h2>
-        <textarea id="costListText"  name="costList" id="" cols="30" rows="10"></textarea>
-    </div>
     <div id="button_bundle_outside">
         <div id="button_bundle">
             <input type="submit" value='确认完修'>
@@ -21,10 +17,6 @@
     </div>
 </form>
 <style type="text/css">
-    #costListText{
-        width: 800px;
-        height: 300px;
-    }
     #button_bundle_outside{
         position: absolute;
         width: 100%
