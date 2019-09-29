@@ -30,7 +30,7 @@ class OrderAdmin(admin.ModelAdmin):
 
     def buttons(self, obj):
         button_html = ''
-        if obj.serviceStatus == '维修完成' and obj.orderStatus == '等待维修':
+        if obj.serviceStatus == '维修完成' and obj.orderStatus == '待维修':
             button_html = """<a class="changelink" href="/snack/finish_id=%d/">订单完修</a>""" % (
             obj.id)
         elif obj.serviceStatus == '下派中' and obj.orderStatus == '审核中':
