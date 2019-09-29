@@ -112,7 +112,7 @@ def assess(request,order_id):
     else:
         context = {
             'order_id':order_id,
-            'techs':VipUser.objects.all()
+            'techs':VipUser.objects.filter(hire='已就职')
         }
         return render(request,'order_assess.html',context)
 

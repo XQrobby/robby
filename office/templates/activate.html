@@ -1,0 +1,40 @@
+{% extends "admin/base.html" %}
+{% block title %}
+{{ 员工账号激活 }} | {{ site_title|default:_('Django site admin') }}
+{% endblock %}
+{% block branding %}
+<div>确定激活</div>
+{% endblock %}
+{% block content %}
+<div>
+    <h3>姓名</h3>
+    <p>{{name}}</p>
+</div>
+<div>
+    <h3>电话</h3>
+    <p>{{tel}}</p>
+</div>
+<div>
+    <h3>地址</h3>
+    <p>{{address}}</p>
+</div>
+<form action="{% url 'office:activate_opt' %}" method="POST">
+    <input type="hidden" name="unionCode" value="{{unionCode}}">
+    <div id="button_bundle_outside">
+        <div id="button_bundle">
+            <input type="submit" value='确认激活'>
+            <input type="button" value="取消" >
+        </div>
+    </div>
+</form>
+<style type="text/css">
+    #button_bundle_outside{
+        position: absolute;
+        width: 100%
+    }
+    #button_bundle{
+        position: relative;
+        right: -45%;
+    }
+</style>
+{% endblock %}

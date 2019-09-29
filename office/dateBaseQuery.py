@@ -2,6 +2,7 @@ from .models import VipUser,VipUserType,Level
 from snack.models import Order
 from django.utils import timezone
 from robby.settings import BASE_HOST
+from datetime import datetime
 #订单日志填入
 def wOrderLog(order,userType,unionCode,operation):
     orderLog = order.orderLog
@@ -191,3 +192,34 @@ def finsh_repair(unionCode,orderID,costList,prices,faultContent):
 def get_faultContent(orderID):
     order = Order.objects.get(orderID=orderID)
     return order.faultContent
+
+def create_job_number(vipUser):
+    jobNumber = ''
+    now = datetime.now()
+    numbers = [now.year,now.month,now.day,vipUser.id]
+    for num in numbers:
+        jobNumber += str(num)
+    return  jobNumber
+
+def vipUserActivate(unionCode):
+    try:
+        vipUser = VipUser.objects.get(unionCode=unionCode)
+        vipUser.hire = '已就职'
+        vipUser.hiredate = datetime.now()
+        if vipUser.hire == '审核中':
+            jobNumber = create_job_number(vipUser)
+            vipUser.jobNumber = jobNumber
+        vipUser.save()
+        return True
+    except:
+        return False
+
+def vipUserDeActivate(unionCode):
+    try:
+        vipUser = VipUser.objects.get(unionCode=unionCode)
+        vipUser.hire = '已离职'
+        vipUser.dimissionTime = datetime.now()
+        vipUser.save()
+        return True
+    except:
+        return False

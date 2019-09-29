@@ -11,7 +11,24 @@
             <h2>请选择技术员</h2>
                 {% for tech in techs %}
             <div class="tech_choice">
-                {{ tech.name }} <input type="radio" name="tech_id" value="{{tech.id}}">
+                <div>
+                    <div class='content_item'>
+                        <h2 class="item_title">工号</h2>
+                        <div class="item_value">{{tech.jobNumber}}</div>
+                    </div>
+                    <div class='content_item'>
+                        <h2 class="item_title">姓名</h2>
+                        <div class="item_value">{{tech.name}}</div>
+                    </div>
+                    <div class='content_item'>
+                        <h2 class="item_title">电话</h2>
+                        <div class="item_value">{{tech.tel}}</div>
+                    </div>
+                    <div class='content_item'>
+                        <h2 class="item_title">等级</h2>
+                        <div class="item_value">{{ tech.level }}</div>
+                    </div>
+                </div> <input type="radio" name="tech_id" value="{{tech.id}}">
             </div>
             {% endfor %}
             <input type="hidden" name="order_id" value="{{order_id}}">

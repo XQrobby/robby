@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http.response import JsonResponse
+from django.http.response import JsonResponse,HttpResponseRedirect
 from requests import get
 from .models import VipUser
 import office.dateBaseQuery as query
@@ -92,3 +92,43 @@ def complete(request):
         if query.checkLogin(content['unionCode'],content['code']):
             return JsonResponse({'status':True,'costList':query.get_cost_list(content['orderID']),'faultContent':query.get_faultContent(content['orderID'])})
     return JsonResponse({'status':False})
+
+def activate(request,unionCode):
+    vipUser = VipUser.objects.get(unionCode=unionCode)
+    if vipUser.hire == '审核中' or vipUser.hire == '已离职':
+        content = {
+            'unionCode':unionCode,
+            'name':vipUser.name,
+            'tel':vipUser.tel,
+            'address':vipUser.address
+        }
+        return render(request,'activate.html',content)
+    return HttpResponseRedirect(redirect_to='/admin/office/vipuser/')
+
+def activate_opt(request):
+    if request.method == 'POST':
+        content = request.POST.dict()
+        res = query.vipUserActivate(content['unionCode'])
+        return HttpResponseRedirect(redirect_to='/admin/office/vipuser/')
+    return JsonResponse({"status":'can not receive'})
+
+
+def deactivate(request,unionCode):
+    vipUser = VipUser.objects.get(unionCode=unionCode)
+    if vipUser.hire == '已就职':
+        content = {
+            'unionCode':unionCode,
+            'name':vipUser.name,
+            'tel':vipUser.tel,
+            'address':vipUser.address
+        }
+        return render(request,'deactivate.html',content)
+    return HttpResponseRedirect(redirect_to='/admin/office/vipuser/')
+
+def deactivate_opt(request):
+    if request.method == 'POST':
+        content = request.POST.dict()
+        res = query.vipUserDeActivate(content['unionCode'])
+        print(res)
+        return HttpResponseRedirect(redirect_to='/admin/office/vipuser/')
+    return JsonResponse({"status":'can not receive'})
