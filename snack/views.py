@@ -6,6 +6,7 @@ from .models import Order,Client
 from office.models import VipUser
 import snack.dateBaseQuery as query
 # Create your views here.
+
 def login(request):
     if request.method == 'POST':
         #获取unionCode

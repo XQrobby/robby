@@ -15,6 +15,7 @@ def login(request):
             'grant_type':'authorization_code'
             }
         res = get(api,params=payload,verify=False,timeout=3).json()
+        print(res)
         #检查User是否存在
         unionCode = res['openid']
         vipUser = query.queryVipUser(unionCode)

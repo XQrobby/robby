@@ -143,3 +143,83 @@ BASE_HOST = 'http://127.0.0.1:8000/'
 #BASE_HOST = 'https://www.robbyzhang.cn/'
 #BASE_HOST = 'http://www.robbyzhang.cn/'
 STATUS_TXT_PATH = 'status/'
+
+#日志
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {  # 日志格式
+        'standard': {
+            # 2016-12-24 14:51:19,888 [Thread-2:7120] [blog.views:28] [views:index] [ERROR]- [Errno 2] No such file or directory: 'ss.txt'
+            'format': '%(asctime)s [%(threadName)s:%(thread)d] [%(name)s:%(lineno)d] [%(module)s:%(funcName)s] [%(levelname)s]- %(message)s'}
+
+    },
+    'filters': {  # Filter 用于对从logger 传递给handler 的日志记录进行额外的控制。
+    },
+    'handlers': {
+        'mail_admins': {  # 它将用邮件发送ERROR（和更高级）的消息到站点管理员
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+        },
+        'default': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'log/all.log',  # 日志输出文件位置
+            'maxBytes': 1024 * 1024 * 5,  # 文件大小
+            'backupCount': 5,  # 备份份数
+            'formatter': 'standard',  # 使用哪种formatters日志格式
+        },
+        'error': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'log/error.log',  # 日志输出文件位置
+            'maxBytes': 1024 * 1024 * 5,  # 文件大小
+            'backupCount': 5,  # 备份份数
+            'formatter': 'standard',  # 这个handler 使用simple 输出格式。
+        },
+        'console': {  # 一个StreamHandler，它将打印DEBUG（和更高级）的消息到stderr。
+            'level': 'DEBUG',  # DEBUG：用于调试目的的底层系统信息
+            'class': 'logging.StreamHandler',
+            'formatter': 'standard'  # 这个handler 使用simple 输出格式。
+        },
+        'request_handler': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'log/script.log',
+            'maxBytes': 1024 * 1024 * 5,
+            'backupCount': 5,
+            'formatter': 'standard',
+        },
+        'scprits_handler': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'log/script.log',
+            'maxBytes': 1024 * 1024 * 5,
+            'backupCount': 5,
+            'formatter': 'standard',
+        }
+    },
+    'loggers': {
+        'django': {  # django将DEBUG级以上的内容交给default和console
+            'handlers': ['default', 'console'],
+            'level': 'DEBUG',
+            'propagate': False
+        },
+        'django.request': {  # django.request将DEBUG级别以上的内容交给request_handler
+            'handlers': ['request_handler'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'scripts': {  # scripts将INFO级别以上的内容交给scprits_handler
+            'handlers': ['scprits_handler'],
+            'level': 'INFO',
+            'propagate': False
+        },
+        'blog.views': {  # blog.views将DEBUG级别以上的内容交给default和error
+            'handlers': ['default', 'error'],
+            'level': 'DEBUG',
+            'propagate': True
+        },
+    }
+}
