@@ -98,18 +98,20 @@ def delete_menu(request):
     return HttpResponse('success')
 
 def enrollScholarUser(request):
-    try:
-        content = request.GET.dict()
-        app = App.objects.all()[0]
-        openid = rspon.get_openid(app.appid,app.secret,content['code'])
-        res_union = rspon.get_unionid(openid)
-        collect_logger.debug(str(res_union))
-        divisions = divisionForm()
-        context = {'openid':openid,'divisions':divisions}
-        print(context)
-        return render(request,'enrollScholarUser.html',context)
+    #try:
+    content = request.GET.dict()
+    app = App.objects.all()[0]
+    openid = rspon.get_openid(app.appid,app.secret,content['code'])
+    res_union = rspon.get_unionid(openid)
+    collect_logger.debug(str(res_union))
+    divisions = divisionForm()
+    context = {'openid':openid,'divisions':divisions}
+    print(context)
+    return render(request,'enrollScholarUser.html',context)
+    '''
     except:
         return JsonResponse({'status':'fail'})
+    '''
 
 def createScholarUser(request):
     print(request.POST)
