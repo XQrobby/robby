@@ -104,7 +104,7 @@ def enrollScholarUser(request):
     openid = rspon.get_openid(app.appid,app.secret,content['code'])
     collect_logger.info('openid:'+openid)
     res_union = rspon.get_unionid(openid)
-    collect_logger.info('unionID'+str(res_union))
+    collect_logger.info('unionID:'+res_union['unionid'])
     divisions = divisionForm()
     context = {'openid':openid,'divisions':divisions}
     print(context)
