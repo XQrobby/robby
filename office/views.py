@@ -3,6 +3,8 @@ from django.http.response import JsonResponse,HttpResponseRedirect
 from requests import get
 from .models import VipUser
 import office.dateBaseQuery as query
+import logging
+collect_logger = logging.getLogger("scripts")
 # Create your views here.
 def login(request):
     if request.method == 'POST':
@@ -15,7 +17,9 @@ def login(request):
             'grant_type':'authorization_code'
             }
         res = get(api,params=payload,verify=False,timeout=3).json()
+        collect_logger.info(str(res))
         print(res)
+        
         #检查User是否存在
         unionCode = res['openid']
         vipUser = query.queryVipUser(unionCode)
