@@ -5,8 +5,9 @@ from requests import get
 from .models import Order,Client
 from office.models import VipUser
 import snack.dateBaseQuery as query
+import logging
 # Create your views here.
-
+collect_logger = logging.getLogger("scripts")
 def login(request):
     if request.method == 'POST':
         #获取unionCode
@@ -18,6 +19,7 @@ def login(request):
             'grant_type':'authorization_code'
             }
         res = get(api,params=payload,verify=False,timeout=3).json()
+        collect_logger.info(str(res))
         print(res)
             #检查User是否存在
         try:
