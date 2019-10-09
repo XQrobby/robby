@@ -10,8 +10,9 @@ from requests import post,get
 from .models import App,ScholarUser
 from snack.dateBaseQuery import divisionForm
 import datetime
-
+import logging
 # Create your views here.
+collect_logger = logging.getLogger('scripts')
 '''
 WECHAT_TOKEN = 'hello'
 def wechat(request):
@@ -101,6 +102,8 @@ def enrollScholarUser(request):
         content = request.GET.dict()
         app = App.objects.all()[0]
         openid = rspon.get_openid(app.appid,app.secret,content['code'])
+        res_union = rspon.get_unionid(openid)
+        collect_logger.info(str(res_union))
         divisions = divisionForm()
         context = {'openid':openid,'divisions':divisions}
         print(context)
