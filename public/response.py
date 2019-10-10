@@ -18,7 +18,7 @@ def autoreply(request):
     elif msg.type == 'event':
         if msg.event == 'subscribe':
             reply = create_reply('感谢关注',msg)
-            res = createAgency(request.get('openid'))
+            res = createAgency(request.GET.get('openid'))
     else:
         reply = create_reply('这是条其他类型消息', msg)
     response = HttpResponse(reply.render(), content_type="application/xml")
