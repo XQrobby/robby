@@ -123,24 +123,27 @@ def enrollScholarUser(request):
 def createScholarUser(request):
     print(request.POST)
     content = request.POST.dict()
+    collect_logger.info(str(content))
+    '''
     try:
         ScholarUser.objects.get(unionCode=content['unionCode'])
         print('已注册')
         return JsonResponse({"status":'success'})
     except:
-        res = query.createScholarUser(content['name'],content['tel'],content['unionCode'],query.get_division(content['section'],content['clas']))
-        #发送模板消息
-        mes = {
-            'first':'注册信息提交成功',
-            'keyword1':res.name,
-            'keyword2':str(datetime.datetime.now()),
-            'remark':'注册正在审核中',
-        }
-        model_info = rspon.send_enroll_info(mes)
-        rspon.post_model_info(model_info)
+    '''
+    res = query.createScholarUser(content['name'],content['tel'],content['unionCode'],query.get_division(content['section'],content['clas']))
+    #发送模板消息
+    mes = {
+        'first':'注册信息提交成功',
+        'keyword1':res.name,
+        'keyword2':str(datetime.datetime.now()),
+        'remark':'注册正在审核中',
+    }
+    model_info = rspon.send_enroll_info(mes)
+    rspon.post_model_info(model_info)
 
-        context = {}
-        return render(request,'createScholarUser.html',context)
+    context = {}
+    return render(request,'createScholarUser.html',context)
 
 def getDivisions(request):
     if request.method == 'GET':
