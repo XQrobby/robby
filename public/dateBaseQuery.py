@@ -98,3 +98,7 @@ def createAgency(unionCode):
         return True
     else:
         return False
+
+def query_unionCode_by_unionID(unionID):
+    agency = Agency.objects.get(unionID=unionID)
+    return agency.unionCode
