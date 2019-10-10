@@ -138,6 +138,7 @@ def createScholarUser(request):
         'keyword1':res.name,
         'keyword2':str(datetime.datetime.now()),
         'remark':'注册正在审核中',
+        'unionCode':res.unionCode
     }
     model_info = rspon.send_enroll_info(mes)
     rspon.post_model_info(model_info)
@@ -161,6 +162,7 @@ def activate(requests,unionCode):
         'keyword1':user.name,
         'keyword2':str(datetime.datetime.now()),
         'remark':'恭喜您，已经成为校方审核员',
+        'unionCode':user.unionCode
     }
     model_info = rspon.send_enroll_info(mes)
     rspon.post_model_info(model_info)
