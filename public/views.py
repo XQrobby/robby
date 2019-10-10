@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http.response import HttpResponse,JsonResponse,HttpResponseRedirect
+from django.http.response import HttpResponse,JsonResponse,HttpResponseRedirect,HttpResponseServerError
 from wechatpy import parse_message,create_reply
 from wechatpy.exceptions import InvalidSignatureException
 from wechatpy.utils import check_signature
@@ -104,9 +104,15 @@ def enrollScholarUser(request):
     openid = rspon.get_openid(app.appid,app.secret,content['code'])
     collect_logger.info('openid:'+openid)
     res_union = rspon.get_unionid(openid)
-    collect_logger.info('unionID:'+res_union['unionid'])
+    if not res_union['status']:
+        return HttpResponseServerError(reason='请求unionCode失败')
+    collect_logger.info('unionCode:'+res_union['unionCode'])
+    unionCode = res_union['unionCode']
+    if not query.check_scholar_user(unionCode):
+        context = {'status':'have enrolled'}
+        return render(request,'createScholarUser.html',context)
     divisions = divisionForm()
-    context = {'openid':openid,'divisions':divisions}
+    context = {'openid':openid,'divisions':divisions,'unionCode':unionCode}
     print(context)
     return render(request,'enrollScholarUser.html',context)
     '''
@@ -129,7 +135,6 @@ def createScholarUser(request):
             'keyword1':res.name,
             'keyword2':str(datetime.datetime.now()),
             'remark':'注册正在审核中',
-            'openid':res.unionCode
         }
         model_info = rspon.send_enroll_info(mes)
         rspon.post_model_info(model_info)
@@ -153,7 +158,6 @@ def activate(requests,unionCode):
         'keyword1':user.name,
         'keyword2':str(datetime.datetime.now()),
         'remark':'恭喜您，已经成为校方审核员',
-        'openid':user.unionCode
     }
     model_info = rspon.send_enroll_info(mes)
     rspon.post_model_info(model_info)

@@ -113,4 +113,8 @@ def post_model_info(model_info):
 def get_unionid(openid):
     url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token=%s&openid=%s&lang=zh_CN'%(use_access_token(),openid)
     res = get(url)
-    return res.json()
+    if res.status_code == 200:
+        data = res.json()
+        if data['unionid']:
+            return {'status':True,'unionCode':data['unionid']}
+    return {'status':False,'unionid':''}
