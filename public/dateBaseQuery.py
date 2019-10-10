@@ -1,7 +1,7 @@
 from .models import AssessToken,App,ScholarUser,Agency
 from snack.models import Division
 import datetime
-from requests import request
+from requests import request,get
 import logging
 collect_logger = logging.getLogger('scripts')
 #从数据库查询access_token对象
