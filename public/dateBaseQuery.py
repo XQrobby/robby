@@ -68,6 +68,6 @@ def get_division(section,clas):
 def check_scholar_user(unionCode):
     try:
         user = ScholarUser.objects.get(unionCode=unionCode)
-        return True
-    except:
         return False
+    except:
+        return True
