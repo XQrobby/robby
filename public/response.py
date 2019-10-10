@@ -81,7 +81,7 @@ def give_model_info(content):
 def send_enroll_info(content):
     #返回用户注册模板信息
     response = {
-        "touser":content['openid'],
+        "touser":content['unionCode'],
         "template_id":'fmuMocp62Fpufwjqgt6p33z54QlD1N2JFtdN_reUAEg',
         "topcolor":"#FF0000",
         "data":{
