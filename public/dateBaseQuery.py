@@ -1,8 +1,9 @@
-from .models import AssessToken,App,ScholarUser
+from .models import AssessToken,App,ScholarUser,Agency
 from snack.models import Division
 import datetime
 from requests import request
-
+import logging
+collect_logger = logging.getLogger('scripts')
 #从数据库查询access_token对象
 def query_access_token():
     return AssessToken.objects.all()[0]
@@ -71,3 +72,29 @@ def check_scholar_user(unionCode):
         return False
     except:
         return True
+
+def check_agency(unionCode):
+    try:
+        agency = Agency.objects.get(unionCode=unionCode)
+        return False
+    except:
+        return True
+
+def get_unionid(openid):
+    url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token=%s&openid=%s&lang=zh_CN'%(use_access_token(),openid)
+    res = get(url)
+    if res.status_code == 200:
+        data = res.json()
+        if data['unionid']:
+            return {'status':True,'unionid':data['unionid']}
+    return {'status':False,'unionid':''}
+
+def createAgency(unionCode):
+    if check_agency(unionCode):
+        res_unionID = get_unionid(unionCode)
+        agency = Agency(unionCode=unionCode,unionID=res_unionID['unionid'])
+        agency.save()
+        collect_logger.info('unionCode:%s\nunionid:%s'%(agency.unionID,agency.unionID))
+        return True
+    else:
+        return False

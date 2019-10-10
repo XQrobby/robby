@@ -34,6 +34,6 @@ class App(models.Model):
     appid = models.CharField(default='NaN',max_length=100)
     secret = models.CharField(default='NaN',max_length=100)
 
-class agency(models.Model):
+class Agency(models.Model):
     unionCode = models.CharField(verbose_name='openid',max_length=50,default='NaN')
     unionID = models.CharField(verbose_name='开放平台id',max_length=50,default='NaN')

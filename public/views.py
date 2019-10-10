@@ -105,14 +105,14 @@ def enrollScholarUser(request):
     collect_logger.info('openid:'+openid)
     res_union = rspon.get_unionid(openid)
     if not res_union['status']:
-        return HttpResponseServerError(reason='请求unionCode失败')
-    collect_logger.info('unionCode:'+res_union['unionCode'])
-    unionCode = res_union['unionCode']
+        return HttpResponseServerError(reason='请求unionid失败')
+    collect_logger.info('unionid:'+res_union['unionid'])
+    unionid = res_union['unionid']
     if not query.check_scholar_user(openid):
         context = {'status':'have enrolled'}
         return render(request,'createScholarUser.html',context)
     divisions = divisionForm()
-    context = {'openid':openid,'divisions':divisions,'unionCode':unionCode}
+    context = {'openid':openid,'divisions':divisions,'unionid':unionid}
     print(context)
     return render(request,'enrollScholarUser.html',context)
     '''

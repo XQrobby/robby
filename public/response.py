@@ -3,7 +3,7 @@ from django.http.response import HttpResponse,JsonResponse
 from .models import App
 from requests import get,post
 from json import dumps
-from .dateBaseQuery import use_access_token
+from .dateBaseQuery import use_access_token,createAgency
 
 def autoreply(request):
     msg = parse_message(request.body)
@@ -18,6 +18,7 @@ def autoreply(request):
     elif msg.type == 'event':
         if msg.event == 'subscribe':
             reply = create_reply('感谢关注',msg)
+            res = createAgency(request.get('openid'))
     else:
         reply = create_reply('这是条其他类型消息', msg)
     response = HttpResponse(reply.render(), content_type="application/xml")
@@ -116,5 +117,5 @@ def get_unionid(openid):
     if res.status_code == 200:
         data = res.json()
         if data['unionid']:
-            return {'status':True,'unionCode':data['unionid']}
+            return {'status':True,'unionid':data['unionid']}
     return {'status':False,'unionid':''}
