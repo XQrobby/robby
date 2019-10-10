@@ -12,6 +12,8 @@ class User(models.Model):
     unionCode = models.CharField(verbose_name='unionCode',max_length=50,default='NaN')
     #loginCode用于验证用户身份，在登录时更新。appCode==loginCode
     loginCode = models.CharField(verbose_name='微信登录凭证',max_length=50,default='NaN')
+    #开放平台关于服务器的唯一标识
+    unionID = models.CharField(verbose_name='unionID',max_length=50,default='NaN')
     
     class Meta:
         abstract = True
