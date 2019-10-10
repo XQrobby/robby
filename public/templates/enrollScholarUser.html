@@ -11,7 +11,7 @@
     <form id="content" method="post" action="{% url 'public:createScholarUser' %}">
         <p><label>姓名：<input id='name' name="name" type="text"></label></p>
         <p><label>电话：<input id='tel' name="tel" type="tel"></label></p>
-        <input type="hidden" name='unionCode' value='{{ unionCode }}'>
+        <input type="hidden" name='unionCode' value='{{ openid }}'>
         <p>选择单位</p>
         <select id='section' name="section">
             <option value="---">---</option>
