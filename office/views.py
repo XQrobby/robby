@@ -22,6 +22,9 @@ def login(request):
         
         #检查User是否存在
         unionCode = res['openid']
+        unionID = res.get('unionid')
+        if not unionID:
+            return JsonResponse({'status':'no unionID'})
         vipUser = query.queryVipUser(unionCode)
         if vipUser:
             vipUser.loginCode = request.POST.get('code')
@@ -42,7 +45,12 @@ def login(request):
             })
         else:
             #用户初始化
-            return JsonResponse({'status':'none','vipUserTypes':query.types(),'unionCode':unionCode})
+            return JsonResponse({
+                'status':'none',
+                'vipUserTypes':query.types(),
+                'unionCode':unionCode,
+                'unionID':unionID
+                })
     return JsonResponse({'status':False})
 
 def enroll(requests):

@@ -99,6 +99,14 @@ def createAgency(unionCode):
     else:
         return False
 
+def deleteAgency(unionCode):
+    try:
+        agency = Agency.objects.get(unionCode=unionCode)
+        agency.delete()
+        return True
+    except:
+        return False
+
 def query_unionCode_by_unionID(unionID):
     agency = Agency.objects.get(unionID=unionID)
     return agency.unionCode

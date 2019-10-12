@@ -28,6 +28,9 @@ def login(request):
         except:
             print('errcode:',res['errcode'])
             return JsonResponse({'status':'请检查appid'})
+        unionID = res.get('unionid')
+        if not unionID:
+            return JsonResponse({'status':'no unionID'})
         if client:
             client.loginCode = request.POST.get('code')
             client.save()
@@ -48,7 +51,8 @@ def login(request):
                 'status':status,
                 'unionCode':unionCode,
                 'sectionsForm':query.divisionForm(),
-                'serviceTypesForm':query.serviceTypeForm()
+                'serviceTypesForm':query.serviceTypeForm(),
+                'unionID':unionID,
             })
     return JsonResponse({'status':False})
 

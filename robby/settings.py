@@ -145,6 +145,7 @@ BASE_HOST = 'http://127.0.0.1:8000/'
 STATUS_TXT_PATH = 'status/'
 
 #日志
+'''
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
@@ -179,7 +180,7 @@ LOGGING = {
             'formatter': 'standard',  # 这个handler 使用simple 输出格式。
         },
         'console': {  # 一个StreamHandler，它将打印DEBUG（和更高级）的消息到stderr。
-            'level': 'DEBUG',  # DEBUG：用于调试目的的底层系统信息
+            'level': 'INFO',  # DEBUG：用于调试目的的底层系统信息
             'class': 'logging.StreamHandler',
             'formatter': 'standard'  # 这个handler 使用simple 输出格式。
         },
@@ -223,3 +224,4 @@ LOGGING = {
         },
     }
 }
+'''

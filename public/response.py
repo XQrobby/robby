@@ -3,7 +3,7 @@ from django.http.response import HttpResponse,JsonResponse
 from .models import App
 from requests import get,post
 from json import dumps
-from .dateBaseQuery import use_access_token,createAgency
+from .dateBaseQuery import use_access_token,createAgency,deleteAgency
 
 def autoreply(request):
     msg = parse_message(request.body)
@@ -19,6 +19,8 @@ def autoreply(request):
         if msg.event == 'subscribe':
             reply = create_reply('感谢关注',msg)
             res = createAgency(request.GET.get('openid'))
+        elif msg.event == 'unsubscribe':
+            res = deleteAgency(request.GET.get('openid'))
     else:
         reply = create_reply('这是条其他类型消息', msg)
     response = HttpResponse(reply.render(), content_type="application/xml")
