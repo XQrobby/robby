@@ -93,6 +93,7 @@ def newOrder(request):
                     'unionCode':order.client.unionCode,
                     'orderID':orderID,
                     'section':order.client.section,
+                    'model':order.model,
                     'createTime':str(order.createTime)
                 }
             else:
