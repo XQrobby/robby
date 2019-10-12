@@ -1,2 +1,4 @@
 2019-10-09 17:47:56,045 [Thread-1:9880] [scripts:22] [views:login] [INFO]- {'session_key': 'nbmLffe9IDb2oR4p0+hvRA==', 'openid': 'o55WL5XVi_CvuSYtWHsvMKp2tNv4'}
 2019-10-09 19:37:48,227 [Thread-1:15096] [scripts:22] [views:login] [INFO]- {'session_key': 'stji+bNXCp/VnNut7NoUjA==', 'openid': 'o55WL5XVi_CvuSYtWHsvMKp2tNv4'}
+2019-10-12 09:00:22,496 [Thread-1:3264] [scripts:20] [views:login] [INFO]- {'session_key': '/uCUen6KG/kmS+WG/IPBmA==', 'openid': 'oVA7d4o5FYaE4weZAmkUePZi5b9I', 'unionid': 'oaxwKw7bpOIyrYDmzEIIjcW3oqvA'}
+2019-10-12 09:01:59,791 [Thread-1:3264] [scripts:20] [views:login] [INFO]- {'session_key': '/uCUen6KG/kmS+WG/IPBmA==', 'openid': 'oVA7d4o5FYaE4weZAmkUePZi5b9I', 'unionid': 'oaxwKw7bpOIyrYDmzEIIjcW3oqvA'}
