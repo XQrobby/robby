@@ -4,6 +4,7 @@ from django.core.files.base import ContentFile
 from django.utils import timezone
 from office.dateBaseQuery import wOrderLog,wServiceLog
 from robby.settings import BASE_HOST
+from public.models import Agency
 def queryClient(unicode):
 #查询User用户。若用户存在，返回对象，否则返回false
     try:
@@ -24,8 +25,8 @@ def clientDetail(client):
     }
 
 #user初始化
-def clientInit(unionCode):
-    client = Client(unionCode=unionCode)
+def clientInit(unionCode,unionID):
+    client = Client(unionCode=unionCode,unionID=unionID)
     client.save()
     return client
 
@@ -179,15 +180,21 @@ def receiveImage(img,orderID):
     image.save()
 
 def setTech(content):
-    order = Order.objects.get(id=content['order_id'])
-    tech = VipUser.objects.get(id=content['tech_id'])
-    order.technician = tech
-    order.orderStatus = '待维修'
-    order.serviceStatus = '待维修'
-    order.is_assess = True
-    order.save()
-    wOrderLog(order,'调度员',content['user_id'],'下派订单-->'+tech.name)
-    wServiceLog(order,'调度员',content['user_id'],'下派订单-->'+tech.name)
+    try:
+        order = Order.objects.get(id=content['order_id'])
+        tech = VipUser.objects.get(id=content['tech_id'])
+        bookingTime = content['bookingTime_date']+'-'+content['bookingTime_time']
+        order.technician = tech
+        order.orderStatus = '待维修'
+        order.serviceStatus = '待维修'
+        order.is_assess = True
+        order.bookingTime = bookingTime
+        order.save()
+        wOrderLog(order,'调度员',content['user_id'],'下派订单-->'+tech.name)
+        wServiceLog(order,'调度员',content['user_id'],'下派订单-->'+tech.name)
+        return True
+    except:
+        return False
 
 def affirmFinish(content):
     order = Order.objects.get(id=content['order_id'])
@@ -195,6 +202,7 @@ def affirmFinish(content):
 
     order.save()
     wOrderLog(order,'调度员',content['user_id'],'订单完修')
+    return order
 
 def checkLevel(level):
     if level == '':
@@ -216,3 +224,8 @@ def orderCheck(content):
     except Exception as e:
         print(e)
         return '验收未成功，请稍后重试'
+
+def query_public_unionCode(unionCode):
+    client = Client.objects.get(unionCode=unionCode)
+    agency = Agency.objects.get(unionID=client.unionID)
+    return agency.unionCode

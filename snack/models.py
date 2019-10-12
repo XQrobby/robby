@@ -8,6 +8,7 @@ class User(models.Model):
     #小程序关于服务器的唯一标识
     unionCode = models.CharField(verbose_name='unionCode',max_length=50,default='NaN')
     #loginCode用于验证用户身份，在登录时更新。appCode==loginCode
+    unionID = models.CharField(verbose_name='unionID',max_length=50,default='NaN')
     loginCode = models.CharField(verbose_name='微信登录凭证',max_length=50,default='NaN')
     
     class Meta:
@@ -112,6 +113,8 @@ class Order(models.Model):
     serviceStatus = models.CharField(verbose_name='服务状态',max_length=4,default='下派中',choices=SERVICE_STATUS_CHOICES)
     serviceLog = models.TextField(verbose_name='服务日志',blank=True)
     cancel = models.BooleanField(verbose_name='撤销',default=False)
+    #预约时间
+    bookingTime = models.CharField(verbose_name='预计上门时间',max_length=20,default=' ')
     #学校订单属性
     division = models.ForeignKey(Division,verbose_name='单位/院系/部门',on_delete=models.DO_NOTHING,null=True,blank=True)
     audit = models.BooleanField(verbose_name='审核员审核',default=False)

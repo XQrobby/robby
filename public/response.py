@@ -121,3 +121,24 @@ def get_unionid(openid):
         if data['unionid']:
             return {'status':True,'unionid':data['unionid']}
     return {'status':False,'unionid':''}
+
+def send_model_info(content,model_info_create):
+    #content必需包含openid、template_id，并包含相应模板所需的数据
+    '''
+    model_info_create为模板消息构建函数,所有的模板消息构建函数函数名都必须以_create结尾
+    
+    ### 模板消息构建函数使用方法 ###
+        model_info_create(content)
+    
+    ### 模板消息构建函数格式 ###
+        def model_info_create(content):
+            msg = {
+                'touser':content.get('unionCode') #使用get方法避免报错
+            }
+            return dumps(msg)
+    '''
+    model_info = model_info_create(content)
+    url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s'%(use_access_token())
+    res = post(url,data=model_info)
+    print(res.json())
+    return res.json()

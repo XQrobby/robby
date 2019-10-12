@@ -6,6 +6,8 @@ from .models import Order,Client
 from office.models import VipUser
 import snack.dateBaseQuery as query
 import logging
+import snack.response as rspon
+import datetime
 # Create your views here.
 collect_logger = logging.getLogger("scripts")
 def login(request):
@@ -66,10 +68,16 @@ def changeClientInfo(request):
                 return JsonResponse({'status':True,'clientInfoP':query.clientDetail(client)})
             return JsonResponse({'status':False,'detail':'no copyright'})
         except:
-            client = query.clientInit(content['unionCode'])
+            client = query.clientInit(content['unionCode'],content['unionID'])
             client.loginCode = content['code']
             client.save()
             query.changeClientInfo(content)
+            info = {
+                'unionCode':client.unionCode,
+                'client':client.name,
+                'enrollTime':str(datetime.datetime.now())
+            }
+            res = rspon.send_model_info(info,rspon.enroll_create)
             return JsonResponse({'status':True,'clientInfoP':query.clientDetail(client)})
     return JsonResponse({'status':False})
 
@@ -77,7 +85,28 @@ def newOrder(request):
     if request.method == 'POST':
         content = request.POST.dict()
         if query.checkLogin(content['unionCode'],content['code']):
-            return JsonResponse({'status':True,'orderID':query.nOrder(content)})
+            orderID = query.nOrder(content)
+            order = Order.objects.get(orderID=orderID)
+            if order.orderType == '个人订单':
+                model_info_create = rspon.put_order_person_create
+                info = {
+                    'unionCode':order.client.unionCode,
+                    'orderID':orderID,
+                    'section':order.client.section,
+                    'createTime':str(order.createTime)
+                }
+            else:
+                model_info_create = rspon.put_order_scholar_create
+                info = {
+                    'unionCode':order.client.unionCode,
+                    'serviceType':order.serviceType.typ,
+                    'section':order.client.section,
+                    'clas':order.client.clas,
+                    'client':order.client.name,
+                    'tel':order.client.tel
+                }
+            res = rspon.send_model_info(info,model_info_create)
+            return JsonResponse({'status':True,'orderID':orderID})
     return JsonResponse({'status':False})
 
 def orderPic(request):
@@ -127,11 +156,22 @@ def choiceTech(request):
     if request.method == 'POST':
         if 'tech_id' in request.POST:
             content = request.POST.dict()
+            print(content)
             order = Order.objects.get(id=content['order_id'])
             if order.technician:
                 pass 
             else:
-                query.setTech(content)
+                res = query.setTech(content)
+                if res:
+                    info = {
+                        'unionCode':order.client.unionCode,
+                        'tech':order.technician.name,
+                        'tel':order.technician.tel,
+                        'bookingTime':order.bookingTime,
+                        'model':order.model,
+                        'faultDescription':order.faultDescription
+                    }
+                    result = rspon.send_model_info(info,rspon.arrange_order_create)
     return HttpResponseRedirect(redirect_to='/admin/snack/order/')
 
 def finish(request,order_id):
@@ -141,8 +181,15 @@ def finish(request,order_id):
 def affirm(request):
     if request.method == 'POST':
         content = request.POST.dict()
-        query.affirmFinish(content)
+        order = query.affirmFinish(content)
         print(content)
+        info = {
+            'unionCode':order.client.unionCode,
+            'tech':order.technician.name,
+            'tel':order.technician.tel,
+            'finishTime':str(datetime.datetime.now())
+        }
+        rspon.send_model_info(info,rspon.finish_order_create)
     return HttpResponseRedirect(redirect_to='/admin/snack/order/')
 
 def photo(request,order_id):
