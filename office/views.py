@@ -166,7 +166,7 @@ def deactivate_opt(request):
             info = {
                 'unionCode':vipUser.unionCode,
                 'name':vipUser.name,
-                'name':str(vipUser.dimissionTime)
+                'dimissionTime':str(vipUser.dimissionTime)
             }
             result = rspon.send_model_info(info,rspon.dismission_create)
         return HttpResponseRedirect(redirect_to='/admin/office/vipuser/')
