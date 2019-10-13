@@ -191,7 +191,7 @@ def scholar_check_create(content):
     response = {
         "touser":content['unionCode'],
         "template_id":'XIRUpvOYl1iXN7Ykq9k4JL0OoSgxCa3SUQm88X7lYWM',
-        "url":"https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=https://www.robbyzhang.cn/public/orderCheck_orderID=%s/&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect"%(app.appid,content['orderID'])
+        "url":"https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=https://www.robbyzhang.cn/public/orderCheck_orderID=%s/&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect"%(app.appid,content['orderID']),
         "topcolor":"#FF0000",
         "data":{
             "first":{
