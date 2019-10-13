@@ -211,7 +211,7 @@ def affirm(request):
         rspon.send_model_info(info,rspon.finish_order_create)
         info_1 = {
             'unionCode':order.technician.unionCode,
-            'tech':order.technician.tech,
+            'tech':order.technician.name,
             'tel':order.technician.tel,
             'finishTime':str(datetime.now())
         }
