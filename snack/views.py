@@ -10,7 +10,6 @@ import snack.response as rspon
 import datetime
 from office.response import new_task_create
 from office.response import send_model_info as send_model_info_1
-from datetime import datetime
 # Create your views here.
 collect_logger = logging.getLogger("scripts")
 def login(request):
@@ -189,7 +188,7 @@ def choiceTech(request):
                         'orderID':order.orderID,
                         'section_clas':section_clas,
                         'model':order.model,
-                        'time':str(datetime.now())
+                        'time':str(datetime.datetime.now())
                     }
                     result_1 = send_model_info_1(info_1,new_task_create)
     return HttpResponseRedirect(redirect_to='/admin/snack/order/')
