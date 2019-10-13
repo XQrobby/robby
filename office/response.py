@@ -3,33 +3,33 @@ from requests import post
 from public.dateBaseQuery import use_access_token
 from .dateBaseQuery import query_publicUnionCode_with_vipUser_unionCode
 
-    '''
-    #返回用户注册模板信息
-    response = {
-        "touser":content['unionCode'],
-        "template_id":'fmuMocp62Fpufwjqgt6p33z54QlD1N2JFtdN_reUAEg',
-        "topcolor":"#FF0000",
-        "data":{
-            "first":{
-                "value":content['first'],
-                "color":"#173177"
-            },
-            "keyword1":{
-                "value":content['keyword1'],
-                "color":"#173177"
-            },
-            "keyword2":{
-                "value":content['keyword2'],
-                "color":"#173177"
-            },
-            "remark":{
-                "value":content['remark'],
-                "color":"#173177"
-            }
+'''
+#返回用户注册模板信息
+response = {
+    "touser":content['unionCode'],
+    "template_id":'fmuMocp62Fpufwjqgt6p33z54QlD1N2JFtdN_reUAEg',
+    "topcolor":"#FF0000",
+    "data":{
+        "first":{
+            "value":content['first'],
+            "color":"#173177"
+        },
+        "keyword1":{
+            "value":content['keyword1'],
+            "color":"#173177"
+        },
+        "keyword2":{
+            "value":content['keyword2'],
+            "color":"#173177"
+        },
+        "remark":{
+            "value":content['remark'],
+            "color":"#173177"
         }
     }
-    return dumps(response)
-    '''
+}
+return dumps(response)
+'''
 #注册成功，等待审核
 def enroll_success_create(content):
     #name、enrollTime
