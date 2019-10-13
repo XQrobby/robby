@@ -8,6 +8,9 @@ import snack.dateBaseQuery as query
 import logging
 import snack.response as rspon
 import datetime
+from office.response import new_task_create
+from office.response import send_model_info as send_model_info_1
+from datetime import datetime
 # Create your views here.
 collect_logger = logging.getLogger("scripts")
 def login(request):
@@ -177,6 +180,18 @@ def choiceTech(request):
                         'faultDescription':order.faultDescription
                     }
                     result = rspon.send_model_info(info,rspon.arrange_order_create)
+                    if order.orderType == '学校订单':
+                        section_clas = '-'.join([order.division.section,order.division.clas])
+                    else:
+                        section_clas = '-'.join([order.client.section,order.client.clas])
+                    info_1 = {
+                        'unionCode':order.technician.unionCode,
+                        'orderID':order.orderID,
+                        'section_clas':section_clas,
+                        'model':order.model,
+                        'time':str(datetime.now())
+                    }
+                    result_1 = send_model_info_1(info_1,new_task_create)
     return HttpResponseRedirect(redirect_to='/admin/snack/order/')
 
 def finish(request,order_id):
@@ -195,6 +210,13 @@ def affirm(request):
             'finishTime':str(datetime.datetime.now())
         }
         rspon.send_model_info(info,rspon.finish_order_create)
+        info_1 = {
+            'unionCode':order.technician.unionCode,
+            'tech':order.technician.tech,
+            'tel':order.technician.tel,
+            'finishTime':str(datetime.now())
+        }
+        send_model_info_1(info_1,rspon.finish_order_create)
     return HttpResponseRedirect(redirect_to='/admin/snack/order/')
 
 def photo(request,order_id):
