@@ -134,15 +134,11 @@ def createScholarUser(request):
     res = query.createScholarUser(content['name'],content['tel'],content['unionCode'],query.get_division(content['section'],content['clas']))
     #发送模板消息
     mes = {
-        'first':'注册信息提交成功',
-        'keyword1':res.name,
-        'keyword2':str(datetime.datetime.now()),
-        'remark':'注册正在审核中',
+        'name':res.name,
+        'time':str(datetime.datetime.now()),
         'unionCode':res.unionCode
     }
-    model_info = rspon.send_enroll_info(mes)
-    rspon.post_model_info(model_info)
-
+    result = rspon.send_model_info(mes,rspon.enroll_success_create)
     context = {}
     return render(request,'createScholarUser.html',context)
 
@@ -158,14 +154,11 @@ def activate(requests,unionCode):
 
     #发送模板消息
     mes = {
-        'first':'审核通过',
-        'keyword1':user.name,
-        'keyword2':str(datetime.datetime.now()),
-        'remark':'恭喜您，已经成为校方审核员',
-        'unionCode':user.unionCode
+        'unionCode':user.unionCode,
+        'name':user.name,
+        'time':str(datetime.datetime.now())
     }
-    model_info = rspon.send_enroll_info(mes)
-    rspon.post_model_info(model_info)
+    result = rspon.send_model_info(mes,rspon.check_success_create)
     return HttpResponseRedirect(redirect_to='/admin/public/scholaruser/')
     
 

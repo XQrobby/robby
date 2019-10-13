@@ -4,6 +4,7 @@ from .models import App
 from requests import get,post
 from json import dumps
 from .dateBaseQuery import use_access_token,createAgency,deleteAgency
+from json import dumps
 
 def autoreply(request):
     msg = parse_message(request.body)
@@ -61,26 +62,6 @@ def get_openid(appid,secret,code):
     print(res)
     return res.get('openid')
 
-def give_model_info(content):
-    '''
-    response = {
-        "touser":content['openid'],
-        "template_id":content['template_id'],
-        "topcolor":"#FF0000",
-        "data":{
-            "name":{
-                "value":content['name'],
-                "color":"#173177"
-            },
-            "time":{
-                "value":content['time'],
-                "color":"#173177"
-            }
-        }
-    }
-    '''
-    return dumps(response)
-
 def send_enroll_info(content):
     #返回用户注册模板信息
     response = {
@@ -121,6 +102,88 @@ def get_unionid(openid):
         if data['unionid']:
             return {'status':True,'unionid':data['unionid']}
     return {'status':False,'unionid':''}
+'''
+#返回用户注册模板信息
+response = {
+    "touser":content['unionCode'],
+    "template_id":'fmuMocp62Fpufwjqgt6p33z54QlD1N2JFtdN_reUAEg',
+    "topcolor":"#FF0000",
+    "data":{
+        "first":{
+            "value":content['first'],
+            "color":"#173177"
+        },
+        "keyword1":{
+            "value":content['keyword1'],
+            "color":"#173177"
+        },
+        "keyword2":{
+            "value":content['keyword2'],
+            "color":"#173177"
+        },
+        "remark":{
+            "value":content['remark'],
+            "color":"#173177"
+        }
+    }
+}
+return dumps(response)
+'''
+#注册成功
+def enroll_success_create(content):
+    #name、time
+    response = {
+        "touser":content['unionCode'],
+        "template_id":'fmuMocp62Fpufwjqgt6p33z54QlD1N2JFtdN_reUAEg',
+        "topcolor":"#FF0000",
+        "data":{
+            "first":{
+                "value":'注册信息提交成功',
+                "color":"#173177"
+            },
+            "keyword1":{
+                "value":content['name'],
+                "color":"#173177"
+            },
+            "keyword2":{
+                "value":content['time'],
+                "color":"#173177"
+            },
+            "remark":{
+                "value":'注册正在审核中',
+                "color":"#173177"
+            }
+        }
+    }
+    return dumps(response)
+
+#审核通过
+def check_success_create(content):
+    #name、time
+    response = {
+        "touser":content['unionCode'],
+        "template_id":'fmuMocp62Fpufwjqgt6p33z54QlD1N2JFtdN_reUAEg',
+        "topcolor":"#FF0000",
+        "data":{
+            "first":{
+                "value":'审核通过',
+                "color":"#173177"
+            },
+            "keyword1":{
+                "value":content['name'],
+                "color":"#173177"
+            },
+            "keyword2":{
+                "value":content['time'],
+                "color":"#173177"
+            },
+            "remark":{
+                "value":'恭喜您，已经成为校方审核员',
+                "color":"#173177"
+            }
+        }
+    }
+    return dumps(response)
 
 def send_model_info(content,model_info_create):
     #content必需包含openid、template_id，并包含相应模板所需的数据
