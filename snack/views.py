@@ -72,11 +72,13 @@ def changeClientInfo(request):
             client.loginCode = content['code']
             client.save()
             query.changeClientInfo(content)
+            client = query.objects.get(unionCode=content['unionCode'])
             info = {
                 'unionCode':client.unionCode,
                 'client':client.name,
                 'enrollTime':str(datetime.datetime.now())
             }
+            print(info)
             res = rspon.send_model_info(info,rspon.enroll_create)
             return JsonResponse({'status':True,'clientInfoP':query.clientDetail(client)})
     return JsonResponse({'status':False})
@@ -164,6 +166,8 @@ def choiceTech(request):
             else:
                 res = query.setTech(content)
                 if res:
+                    #数据更新
+                    order = Order.objects.get(id=content['order_id'])
                     info = {
                         'unionCode':order.client.unionCode,
                         'tech':order.technician.name,
