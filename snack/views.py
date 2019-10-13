@@ -107,7 +107,7 @@ def newOrder(request):
                 scholar_users = division.scholarUser.all()
                 for scholar_user in scholar_users:
                     mes = {
-                        'unionCode':scholar_users.unionCode,
+                        'unionCode':scholar_user.unionCode,
                         'orderID':order.orderID,
                         'section_clas':'-'.join([order.division.section,order.division.clas]),
                         'model':order.model,
