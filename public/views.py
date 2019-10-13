@@ -8,6 +8,7 @@ import hashlib
 import public.response as rspon
 from requests import post,get
 from .models import App,ScholarUser
+from snack.models import Order
 from snack.dateBaseQuery import divisionForm
 import datetime
 import logging
@@ -161,5 +162,13 @@ def activate(requests,unionCode):
     result = rspon.send_model_info(mes,rspon.check_success_create)
     return HttpResponseRedirect(redirect_to='/admin/public/scholaruser/')
     
-def orderCheck(request):
+def orderCheck(request,orderID):
+    try:
+        app = App.objects.all()[0]
+        openid = rspon.get_openid(app.appid,app.secret,content['code'])
+        scholarUser = ScholarUser.objects.get(unionCode=openid)
+        order = Order.objects.get(orderID=orderID)
+        #未完成
+    except:
+        pass
     return JsonResponse({'status':'success'})
