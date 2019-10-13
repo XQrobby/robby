@@ -109,7 +109,7 @@ def newOrder(request):
                     mes = {
                         'unionCode':scholar_users.unionCode,
                         'orderID':order.orderID,
-                        'section_clas':'-'.join([order.division.section,order.division.clas])
+                        'section_clas':'-'.join([order.division.section,order.division.clas]),
                         'model':order.model,
                         'time':str(order.createTime)
                     }
