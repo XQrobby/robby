@@ -72,7 +72,7 @@ def changeClientInfo(request):
             client.loginCode = content['code']
             client.save()
             query.changeClientInfo(content)
-            client = query.objects.get(unionCode=content['unionCode'])
+            client = Client.objects.get(unionCode=content['unionCode'])
             info = {
                 'unionCode':client.unionCode,
                 'client':client.name,
