@@ -188,6 +188,7 @@ def check_success_create(content):
 #新的订单审核
 def scholar_check_create(content):
     #orderID、section_clas、model、time
+    app = App.objects.all()[0]
     response = {
         "touser":content['unionCode'],
         "template_id":'XIRUpvOYl1iXN7Ykq9k4JL0OoSgxCa3SUQm88X7lYWM',
