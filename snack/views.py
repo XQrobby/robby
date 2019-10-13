@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http.response import JsonResponse,HttpResponseRedirect
 from django.http.request import HttpRequest
 from requests import get
-from .models import Order,Client
+from .models import Order,Client,Division
 from office.models import VipUser
 import snack.dateBaseQuery as query
 import logging
@@ -10,6 +10,8 @@ import snack.response as rspon
 import datetime
 from office.response import new_task_create
 from office.response import send_model_info as send_model_info_1
+from public.response import send_model_info as send_model_info_2
+from public.response import scholar_check_create
 # Create your views here.
 collect_logger = logging.getLogger("scripts")
 def login(request):
@@ -101,12 +103,23 @@ def newOrder(request):
                     'createTime':str(order.createTime)
                 }
             else:
+                division = Division.objects.get(section=order.division.section,clas=order.division.clas)
+                scholar_users = division.scholarUser.all()
+                for scholar_user in scholar_users:
+                    mes = {
+                        'unionCode':scholar_users.unionCode,
+                        'orderID':order.orderID,
+                        'section_clas':'-'.join([order.division.section,order.division.clas])
+                        'model':order.model,
+                        'time':str(order.createTime)
+                    }
+                    send_model_info_2(mes,scholar_check_create)
                 model_info_create = rspon.put_order_scholar_create
                 info = {
                     'unionCode':order.client.unionCode,
                     'serviceType':order.serviceType.typ,
-                    'section':order.client.section,
-                    'clas':order.client.clas,
+                    'section':order.division.section,
+                    'clas':order.division.clas,
                     'client':order.client.name,
                     'tel':order.client.tel
                 }

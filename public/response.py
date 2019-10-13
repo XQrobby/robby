@@ -185,6 +185,44 @@ def check_success_create(content):
     }
     return dumps(response)
 
+#新的订单审核
+def scholar_check_create(content):
+    #orderID、section_clas、model、time
+    response = {
+        "touser":content['unionCode'],
+        "template_id":'XIRUpvOYl1iXN7Ykq9k4JL0OoSgxCa3SUQm88X7lYWM',
+        'url':'https://www.robbyzhang.cn/public/orderCheck',
+        "topcolor":"#FF0000",
+        "data":{
+            "first":{
+                "value":'新的学院维修订单',
+                "color":"#173177"
+            },
+            "keyword1":{
+                "value":content['orderID'],
+                "color":"#173177"
+            },
+            "keyword2":{
+                "value":content['section_clas'],
+                "color":"#173177"
+            },
+            "keyword3":{
+                "value":content['model'],
+                "color":"#173177"
+            },
+            "keyword4":{
+                "value":content['time'],
+                "color":"#173177"
+            },
+            "remark":{
+                "value":'点击详情审核订单',
+                "color":"#173177"
+            }
+        }
+    }
+    return dumps(response)
+
+
 def send_model_info(content,model_info_create):
     #content必需包含openid、template_id，并包含相应模板所需的数据
     '''

@@ -161,4 +161,5 @@ def activate(requests,unionCode):
     result = rspon.send_model_info(mes,rspon.check_success_create)
     return HttpResponseRedirect(redirect_to='/admin/public/scholaruser/')
     
-
+def orderCheck(request):
+    return JsonResponse({'status':'success'})

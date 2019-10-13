@@ -14,4 +14,5 @@ urlpatterns = [
     path('createScholarUser/',views.createScholarUser,name='createScholarUser'),
     path('getDivisions/',views.getDivisions,name='getDivisions'),
     path('activate_unionCode=<str:unionCode>/',views.activate,name='activate'),
+    path('orderCheck',views.orderCheck,name='orderCheck_scholar')
 ]
