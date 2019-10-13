@@ -4,6 +4,8 @@ from requests import get
 from .models import VipUser
 import office.dateBaseQuery as query
 import logging
+import office.response as rspon
+from datetime import datetime
 collect_logger = logging.getLogger("scripts")
 # Create your views here.
 def login(request):
@@ -58,6 +60,14 @@ def enroll(requests):
         content = requests.POST.dict()
         print(content)
         action = query.enroll(content)
+        vipUser = VipUser.objects.get(unionCode=content['unionCode'])
+        if action == '已注册':
+            info = {   
+                'unionCode':vipUser.unionCode,
+                'name':vipUser.name,
+                'enrollTime':str(datetime.now())
+            }
+            result = rspon.send_model_info(info,rspon.enroll_success_create)
         return JsonResponse({'status':True,'action':action})
     else:
         return JsonResponse({'status':False,'action':action})
@@ -122,6 +132,14 @@ def activate_opt(request):
     if request.method == 'POST':
         content = request.POST.dict()
         res = query.vipUserActivate(content['unionCode'])
+        if res:
+            vipUser = VipUser.objects.get(unionCode=content['unionCode'])
+            info = {
+                'unionCode':vipUser.unionCode,
+                'name':vipUser.name,
+                'hiredate':str(vipUser.hiredate)
+            }
+            result = rspon.send_model_info(info,rspon.enroll_check_create)
         return HttpResponseRedirect(redirect_to='/admin/office/vipuser/')
     return JsonResponse({"status":'can not receive'})
 
@@ -143,5 +161,13 @@ def deactivate_opt(request):
         content = request.POST.dict()
         res = query.vipUserDeActivate(content['unionCode'])
         print(res)
+        if res:
+            vipUser = VipUser.objects.get(unionCode=content['unionCode'])
+            info = {
+                'unionCode':vipUser.unionCode,
+                'name':vipUser.name,
+                'name':str(vipUser.dimissionTime)
+            }
+            result = rspon.send_model_info(info,rspon.dismission_create)
         return HttpResponseRedirect(redirect_to='/admin/office/vipuser/')
     return JsonResponse({"status":'can not receive'})

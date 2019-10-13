@@ -3,6 +3,12 @@ from snack.models import Order
 from django.utils import timezone
 from robby.settings import BASE_HOST
 from datetime import datetime
+from public.dateBaseQuery import query_unionCode_by_unionID
+#用维修员unionCode换取unionID
+def query_publicUnionCode_with_vipUser_unionCode(unionCode):
+    vipUser = VipUser.objects.get(unionCode=unionCode)
+    publicUnionCode = query_unionCode_by_unionID(vipUser.unionID)
+    return publicUnionCode
 #订单日志填入
 def wOrderLog(order,userType,unionCode,operation):
     orderLog = order.orderLog
