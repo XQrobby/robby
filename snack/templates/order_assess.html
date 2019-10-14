@@ -7,6 +7,12 @@
 {% endblock %}
 {% block content %}
 <div id="outdoor">
+    {% if order.orderType=='学校订单' %}
+        {% if not order.audit %}
+            <h1 color='#DC143C'>该订单为学校订单，且该订单还未通过学院审核</h1>
+            <h1 color='#DC143C'>请与学院审核员核实后在下派该订单</h1>
+        {% endif %}
+    {% endif %}
     <form id='sub' action="{% url 'snack:choiceTech' %}" method="POST">
             <h2>请选择技术员</h2>
                 {% for tech in techs %}
