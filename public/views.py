@@ -163,17 +163,13 @@ def activate(requests,unionCode):
     return HttpResponseRedirect(redirect_to='/admin/public/scholaruser/')
     
 def orderCheck(request,orderID):
-    try:
-        app = App.objects.all()[0]
-        openid = rspon.get_openid(app.appid,app.secret,content['code'])
-        scholarUser = ScholarUser.objects.get(unionCode=openid)
-        order = Order.objects.get(orderID=orderID)
-        #未完成
-        context = {
-            'order':order,
-            'scholarUser':scholarUser,
-        }
-        return render(request,'orderCheck.html',context)
-    except:
-        pass
-    return JsonResponse({'status':'success'})
+    app = App.objects.all()[0]
+    openid = rspon.get_openid(app.appid,app.secret,content['code'])
+    scholarUser = ScholarUser.objects.get(unionCode=openid)
+    order = Order.objects.get(orderID=orderID)
+    #未完成
+    context = {
+        'order':order,
+        'scholarUser':scholarUser,
+    }
+    return render(request,'orderCheck.html',context)
