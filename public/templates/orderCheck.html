@@ -13,5 +13,11 @@
     <div>
         <div><label>审核员：</label><p>{{scholarUser.name}}</p></div>
     </div>
+    <div>
+        <form action="{% url 'public:checkOrderByScholar' %}">
+
+            <input type="submit" value="通过" onclick="">
+        </form>
+    </div>
 </body>
 </html>

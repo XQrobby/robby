@@ -14,5 +14,6 @@ urlpatterns = [
     path('createScholarUser/',views.createScholarUser,name='createScholarUser'),
     path('getDivisions/',views.getDivisions,name='getDivisions'),
     path('activate_unionCode=<str:unionCode>/',views.activate,name='activate'),
-    path('orderCheck_orderID=<str:orderID>/',views.orderCheck,name='orderCheck_scholar')
+    path('orderCheck_orderID=<str:orderID>/',views.orderCheck,name='orderCheck_scholar'),
+    path('checkOrderByScholar/',views.checkOrderByScholar,name='checkOrderByScholar'),
 ]
