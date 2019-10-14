@@ -164,10 +164,15 @@ def assess(request,order_id):
     if order.is_assess:
         return HttpResponseRedirect(redirect_to='/admin/snack/order/')
     else:
+        if order.orderType == '学校订单':
+            orderType = True
+        else:
+            orderType = False
         context = {
             'order_id':order_id,
             'techs':VipUser.objects.filter(hire='已就职'),
             'order':order,
+            'orderType':orderType,
         }
         return render(request,'order_assess.html',context)
 
