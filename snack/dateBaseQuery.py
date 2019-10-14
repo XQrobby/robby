@@ -102,6 +102,7 @@ def createScholarOrder(content):
             addr = content['addr'],
             division = Division.objects.get(section=content['section'],clas=content['clas']),
             orderType = '学校订单',
+            no = content['no']
         )
     order.save()
     wOrderLog(order,'普通用户',content['unionCode'],'创建订单')

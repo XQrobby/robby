@@ -118,6 +118,7 @@ class Order(models.Model):
     #学校订单属性
     division = models.ForeignKey(Division,verbose_name='单位/院系/部门',on_delete=models.DO_NOTHING,null=True,blank=True)
     audit = models.BooleanField(verbose_name='审核员审核',default=False)
+    no = models.CharField(verbose_name='资产编号',max_length=20,default='NaN',blank=True)
     
     def __str__(self):
         return " ".join((self.orderID,self.serviceType.typ,self.client.name))

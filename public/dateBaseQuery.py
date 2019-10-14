@@ -116,5 +116,6 @@ def checkScholarOrder(orderID,unionCode):
     user = ScholarUser.objects.get(unionCode=unionCode)
     if order.division == user.division:
         order.audit = True
+        order.save()
         return True
     return False
