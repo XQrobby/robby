@@ -1,5 +1,5 @@
 from .models import AssessToken,App,ScholarUser,Agency
-from snack.models import Division
+from snack.models import Division,Order
 import datetime
 from requests import request,get
 import logging
@@ -110,3 +110,11 @@ def deleteAgency(unionCode):
 def query_unionCode_by_unionID(unionID):
     agency = Agency.objects.get(unionID=unionID)
     return agency.unionCode
+
+def checkScholarOrder(orderID,unionCode):
+    order = Order.obejcts.get(orderID=orderID)
+    user = ScholarUser.objects.get(unionCode=unionCode)
+    if order.division == user.division:
+        order.audit = True
+        return True
+    return False

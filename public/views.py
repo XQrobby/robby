@@ -174,13 +174,19 @@ def orderCheck(request,orderID):
             'order':order,
             'scholarUser':scholarUser,
         }
+        if order.audit:
+            return render(request,'haveCheck.html',context)
         return render(request,'orderCheck.html',context)
     else:
         return JsonResponse({'status':'error'})
 
 
 def checkOrderByScholar(request):
-    if True:
-        context = {}
-        return render(request,'checkOrderByScholar.html',context)
+    if request.method=="POST":
+        orderID = request.POST.get('orderID')
+        unionCode = request.POST.get('unionCode')
+        res = query.checkScholarOrder(order,unionCode)
+        if res:
+            context = {}
+            return render(request,'checkOrderByScholar.html',context)
     return JsonResponse({"status":False})
