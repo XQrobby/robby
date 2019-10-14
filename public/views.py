@@ -169,6 +169,11 @@ def orderCheck(request,orderID):
         scholarUser = ScholarUser.objects.get(unionCode=openid)
         order = Order.objects.get(orderID=orderID)
         #未完成
+        context = {
+            'order':order,
+            'scholarUser':scholarUser,
+        }
+        return render(request,'orderCheck.html',context)
     except:
         pass
     return JsonResponse({'status':'success'})
