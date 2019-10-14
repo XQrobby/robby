@@ -185,7 +185,7 @@ def checkOrderByScholar(request):
     if request.method=="POST":
         orderID = request.POST.get('orderID')
         unionCode = request.POST.get('unionCode')
-        res = query.checkScholarOrder(order,unionCode)
+        res = query.checkScholarOrder(orderID,unionCode)
         if res:
             context = {}
             return render(request,'checkOrderByScholar.html',context)
