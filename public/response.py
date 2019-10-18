@@ -33,7 +33,7 @@ def get_menu():
         "button":[
             {
                 "type":"view",
-                "name":"Beao维修",
+                "name":"Beao科技",
                 "url":"https://www.robbyzhang.cn/admin/"
             },
             {
@@ -48,9 +48,23 @@ def get_menu():
                         "type":"view",
                         "name":"成为校方审核员",
                         "url":"https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=https://www.robbyzhang.cn/public/enrollScholarUser/&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect"%(app.appid)
-                    }
+                    },
+                    {
+                        "type":"miniprogram",
+                        "name":"毕奥员工专用",
+                        "url":'http://',
+                        'appid':"wx10a71b42870fba91",
+                        "pagepath":"pages/index/index",
+                    },
                 ]
-            }
+            },
+            {
+                "type":"miniprogram",
+                "name":"报修入口",
+                "url":'http://',
+                'appid':"wxb0b3a42da4af0d73",
+                "pagepath":"pages/index/index",
+            },
         ]
     }
     return dumps(response,ensure_ascii=False).encode("utf-8")
