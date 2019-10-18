@@ -16,8 +16,6 @@ def autoreply(request):
             res = createAgency(request.GET.get('openid'))
         elif msg.event == 'unsubscribe':
             res = deleteAgency(request.GET.get('openid'))
-    else:
-        reply = create_reply('这是条其他类型消息', msg)
     response = HttpResponse(reply.render(), content_type="application/xml")
     return response
 
