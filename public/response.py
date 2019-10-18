@@ -10,13 +10,7 @@ def autoreply(request):
     msg = parse_message(request.body)
     reply = create_reply('',msg)
     print("type:",msg.type,"\n",dir(msg))
-    if msg.type == 'text':
-        reply = create_reply('这是条文字消息', msg)
-    elif msg.type == 'image':
-        reply = create_reply('这是条图片消息', msg)
-    elif msg.type == 'voice':
-        reply = create_reply('这是条语音消息', msg)
-    elif msg.type == 'event':
+    if msg.type == 'event':
         if msg.event == 'subscribe':
             reply = create_reply('感谢关注',msg)
             res = createAgency(request.GET.get('openid'))
