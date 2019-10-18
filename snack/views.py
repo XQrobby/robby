@@ -232,7 +232,7 @@ def affirm(request):
             'unionCode':order.technician.unionCode,
             'tech':order.technician.name,
             'tel':order.technician.tel,
-            'finishTime':str(datetime.now())
+            'finishTime':str(datetime.datetime.now())
         }
         send_model_info_1(info_1,rspon.finish_order_create)
     return HttpResponseRedirect(redirect_to='/admin/snack/order/')
